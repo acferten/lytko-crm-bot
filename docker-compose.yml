@@ -7,7 +7,7 @@ services:
     volumes:
       - ./www:/var/www
     networks:
-      - nginx-php-postgres-network
+      - lytko-crm-bot
 
   proxy:
     build:
@@ -23,14 +23,35 @@ services:
       - ./www/public:/var/www/public
       - ./images/proxy:/etc/nginx/conf.d/
     networks:
-      - nginx-php-postgres-network
+      - lytko-crm-bot
 
   adminer:
     image: adminer
     restart: unless-stopped
     container_name: adminer
     networks:
-      - nginx-php-postgres-network
+      - lytko-crm-bot
+
+  ngrok:
+    build:
+      context: images/ngrok
+      args:
+        NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
+        WEB_PORT: proxy:80
+        NGROK_DOMAIN: ${NGROK_DOMAIN}
+    restart: no
+    container_name: ngrok
+    ports:
+      - "4040:4040"
+    depends_on:
+      - proxy
+    command:
+      - "start"
+      - "--all"
+      - "--config"
+      - "/etc/ngrok.yml"
+    networks:
+      - lytko-crm-bot
 
   db:
     image: postgres:alpine
@@ -43,12 +64,12 @@ services:
     volumes:
       - dbdata:/var/lib/postgres
     networks:
-      - nginx-php-postgres-network
+      - lytko-crm-bot
 
 volumes:
   dbdata:
     driver: local
 
 networks:
-  nginx-php-postgres-network:
+  lytko-crm-bot:
     driver: bridge

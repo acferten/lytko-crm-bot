@@ -11,8 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->bigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products');
-            $table->string('title');
-            $table->string('value');
+            $table->string('file');
             $table->timestamps();
         });
     }
