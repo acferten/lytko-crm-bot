@@ -2,8 +2,10 @@
 
 namespace Domain\Product\Models;
 
+use Domain\Order\Models\Order;
 use Domain\Shared\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -39,5 +41,10 @@ class Product extends BaseModel
     public function details(): HasMany
     {
         return $this->hasMany(Detail::class);
+    }
+
+    public function orders(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class);
     }
 }

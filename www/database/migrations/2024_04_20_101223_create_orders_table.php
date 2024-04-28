@@ -13,13 +13,15 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id');
+            $table->bigInteger('user_id')->nullable();
             $table->bigInteger('status_id');
-            $table->bigInteger('employee_id');
+            $table->bigInteger('employee_id')->nullable();
+            $table->bigInteger('address_id')->nullable();
 
             $table->foreign('status_id')->references('id')->on('order_statuses');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('employee_id')->references('id')->on('users');
+            $table->foreign('address_id')->references('id')->on('addresses');
             $table->timestamps();
         });
     }
