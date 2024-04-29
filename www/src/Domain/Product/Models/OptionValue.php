@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class OptionValue extends BaseModel
 {
     protected $fillable = [
-        'value',
+        'name',
         'option_id',
     ];
 

@@ -10,6 +10,7 @@ return new class extends Migration {
         Schema::create('option_values', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('option_id');
+            $table->foreign('option_id')->references('id')->on('options');
             $table->string('name');
             $table->timestamps();
         });

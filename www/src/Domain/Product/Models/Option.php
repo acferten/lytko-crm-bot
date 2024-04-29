@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Option extends BaseModel
 {
     protected $fillable = [
-        'name',
         'title',
         'product_id',
     ];
