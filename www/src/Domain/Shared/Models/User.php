@@ -37,7 +37,6 @@ class User extends Authenticatable implements \Illuminate\Contracts\Auth\CanRese
         'patronymic',
         'telegram_id',
         'telegram_username',
-        'profile_picture',
     ];
 
     protected $hidden = [

@@ -3,6 +3,7 @@
 
 use Domain\Order\Telegram\Commands\GetOrderInfoCommand;
 use Domain\Order\Telegram\Menu\GetAssignedOrdersMenu;
+use Domain\User\Telegram\Menu\GetEmployeesMenu;
 use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Exceptions\TelegramException;
@@ -13,7 +14,10 @@ $bot->onCommand('start', function (Nutgram $bot) {
 
 $bot->onCommand('assigned', GetAssignedOrdersMenu::class)->description('Assigned orders');
 
+$bot->onCommand('employees', GetEmployeesMenu::class)->description('Assigned orders');
+
 $bot->registerCommand(GetOrderInfoCommand::class)->whereNumber('id');;
+
 
 // Exceptions
 if (env('APP_DEBUG')) {

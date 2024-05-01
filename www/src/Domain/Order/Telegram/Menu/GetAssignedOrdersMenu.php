@@ -77,14 +77,13 @@ class GetAssignedOrdersMenu extends InlineMenu
 
     public function showChangeStatusMenu(Nutgram $bot): void
     {
-        $this->clearButtons()->menuText("Вы хотите изменить статус объекта на",
+        $this->clearButtons()->menuText("Вы хотите изменить статус заказа на",
             ['parse_mode' => 'html']);
 
         foreach (OrderStatus::all() as $status) {
-            if (Order::where(['id' => $bot->callbackQuery()->data])->first()->status->id != $status->id)
+            if (Order::find($bot->callbackQuery()->data)->status->id != $status->id)
                 $this->addButtonRow(InlineKeyboardButton::make($status->name,
                     callback_data: "{$status->name},{$bot->callbackQuery()->data}@changeStatus"));
-
         }
 
         $this->addButtonRow(InlineKeyboardButton::make("◀️ Вернуться назад", callback_data: "back@returnBack"))
