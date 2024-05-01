@@ -17,10 +17,9 @@ class GetEmployeesMenu extends InlineMenu
 
     public function start(Nutgram $bot): void
     {
-        // TODO: restrict
-        $employee = User::where('telegram_id', $bot->userId())->first();
+        $bot_user = User::where('telegram_id', $bot->userId())->first();
 
-        if (is_null($employee)) {
+        if (is_null($bot_user) || $bot_user->getRoleNames()->doesntContain('administrator')) {
             $this->menuText('🚫 У Вас нет доступа к этой команде.')->showMenu();
             return;
         }
