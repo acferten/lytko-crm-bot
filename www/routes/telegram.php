@@ -1,18 +1,19 @@
 <?php
 /** @var SergiX44\Nutgram\Nutgram $bot */
 
-use Domain\Order\Telegram\Conversations\GetNewOrdersConversation;
+use Domain\Order\Telegram\Commands\GetOrderInfoCommand;
+use Domain\Order\Telegram\Menu\GetAssignedOrdersMenu;
 use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Exceptions\TelegramException;
-
 
 $bot->onCommand('start', function (Nutgram $bot) {
     $bot->sendMessage('Hello, world!');
 })->description('The start command!');
 
-$bot->onCommand('new_orders', GetNewOrdersConversation::class);
+$bot->onCommand('assigned', GetAssignedOrdersMenu::class)->description('Assigned orders');
 
+$bot->registerCommand(GetOrderInfoCommand::class)->whereNumber('id');;
 
 // Exceptions
 if (env('APP_DEBUG')) {
@@ -21,6 +22,7 @@ if (env('APP_DEBUG')) {
         $bot->sendMessage("File: " . $exception->getFile());
         $bot->sendMessage("Line: " . $exception->getLine());
         Log::channel('nutgram')->error($exception->getMessage());
+        Log::channel('telegram')->error($exception->getMessage());
     });
 
     $bot->onApiError(function (Nutgram $bot, TelegramException $exception) {
@@ -28,5 +30,6 @@ if (env('APP_DEBUG')) {
         $bot->sendMessage("File: " . $exception->getFile());
         $bot->sendMessage("Line: " . $exception->getLine());
         Log::channel('nutgram')->error($exception->getMessage());
+        Log::channel('telegram')->error($exception->getMessage());
     });
 }

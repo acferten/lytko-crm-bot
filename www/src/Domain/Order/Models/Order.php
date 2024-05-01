@@ -7,12 +7,16 @@ use Domain\Shared\Models\BaseModel;
 use Domain\Shared\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 
 /**
  * @property int $id
  * @property int $status_id
  * @property int $user_id
  * @property int $employee_id
+ * @property Address $address
+ * @property OrderStatus $status
+ * @property Collection<Product> $products
  */
 class Order extends BaseModel
 {
