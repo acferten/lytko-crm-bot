@@ -31,4 +31,13 @@ return [
         ],
     ],
 
+    'lytko' => [
+        'uri' => env('LYTKO_API_URI', 'https://lytko.com/wp-json/wp/v2'),
+        'password' => env('LYTKO_API_PASSWORD'),
+        'username' => env('LYTKO_API_USERNAME'),
+        'timeout' => env('LYTKO_TIMEOUT', 10),
+        'retry_times' => env('LYTKO_RETRY_TIMES', null),
+        'retry_milliseconds' => env('LYTKO_RETRY_MILLISECONDS', null),
+    ],
+
 ];

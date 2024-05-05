@@ -15,9 +15,9 @@ return new class extends Migration
             $table->string('password');
             $table->string('name');
             $table->string('surname');
-            $table->string('patronymic');
-            $table->bigInteger('telegram_id');
-            $table->string('telegram_username');
+            $table->string('patronymic')->nullable();
+            $table->bigInteger('telegram_id')->nullable();
+            $table->string('telegram_username')->nullable();
             $table->timestamps();
         });
 

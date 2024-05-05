@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
 
         User::factory()
             ->count(2)->afterCreating(function (User $user) {
-                $user->assignRole('manager');
+                $user->assignRole('shop_manager');
             })
             ->create();
     }
