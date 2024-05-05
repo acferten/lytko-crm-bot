@@ -4,8 +4,10 @@ namespace Domain\Shared\Models;
 
 use Database\Factories\UserFactory;
 use Domain\Order\Models\Order;
+use Domain\User\Observers\UserObserver;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -21,12 +23,13 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string $about
  * @property string $profile_picture
  */
+#[ObservedBy([UserObserver::class])]
 class User extends Authenticatable implements \Illuminate\Contracts\Auth\CanResetPassword, MustVerifyEmail
 {
     use CanResetPassword;
     use HasFactory;
-    use Notifiable;
     use HasRoles;
+    use Notifiable;
 
     protected $fillable = [
         'login',

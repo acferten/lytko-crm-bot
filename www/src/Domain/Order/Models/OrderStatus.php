@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class OrderStatus extends BaseModel
 {
     protected $fillable = [
-        'name'
+        'name',
     ];
 
     public function orders(): hasMany

@@ -2,9 +2,11 @@
 
 namespace Domain\Order\Models;
 
+use Domain\Order\Observers\OrderObserver;
 use Domain\Product\Models\Product;
 use Domain\Shared\Models\BaseModel;
 use Domain\Shared\Models\User;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
@@ -18,13 +20,14 @@ use Illuminate\Support\Collection;
  * @property OrderStatus $status
  * @property Collection<Product> $products
  */
+#[ObservedBy([OrderObserver::class])]
 class Order extends BaseModel
 {
     protected $fillable = [
         'user_id',
         'status_id',
         'employee_id',
-        'address_id'
+        'address_id',
     ];
 
     public function user(): BelongsTo

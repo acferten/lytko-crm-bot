@@ -13,7 +13,7 @@ class OptionValueFactory extends Factory
     {
         return [
             'name' => 'Белый',
-            'option_id' => 1
+            'option_id' => 1,
         ];
     }
 }

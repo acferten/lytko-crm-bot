@@ -11,7 +11,7 @@ class EmployeeCardMessage
     {
         $card = self::getCard($user);
 
-        Telegram::sendMessage($card, $user_id, parse_mode: "html");
+        Telegram::sendMessage($card, $user_id, parse_mode: 'html');
     }
 
     public static function getCard(User $user): string

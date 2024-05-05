@@ -15,7 +15,7 @@ class OrderSeeder extends Seeder
     {
         foreach (OrderStatusEnum::cases() as $status) {
             OrderStatus::factory()->count(1)
-                ->state(['name' => $status],)->create();
+                ->state(['name' => $status])->create();
         }
         Address::factory()->count(5)->create();
         Order::factory()->count(5)->afterCreating(function (Order $order) {

@@ -21,7 +21,7 @@ class OrderCardMessage
             $markup->addRow(InlineKeyboardButton::make('🔽 Следующий заказ', callback_data: 'next'));
         }
 
-        Telegram::sendMessage($card, $user_id, parse_mode: "html");
+        Telegram::sendMessage($card, $user_id, parse_mode: 'html');
     }
 
     public static function getCard(Order $order): string

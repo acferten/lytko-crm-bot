@@ -2,7 +2,6 @@
 
 namespace Domain\Order\Telegram\Menu;
 
-use Domain\Order\Enums\OrderStatusEnum;
 use Domain\Order\Models\Order;
 use Domain\Order\Models\OrderStatus;
 use Domain\Order\Telegram\Messages\OrderCardMessage;
@@ -15,6 +14,7 @@ use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 class GetAssignedOrdersMenu extends InlineMenu
 {
     public Collection $orders;
+
     public int $page;
 
     public function start(Nutgram $bot): void
@@ -23,6 +23,7 @@ class GetAssignedOrdersMenu extends InlineMenu
 
         if (is_null($employee)) {
             $this->menuText('🚫 У Вас нет доступа к этой команде.')->showMenu();
+
             return;
         }
 
@@ -30,6 +31,7 @@ class GetAssignedOrdersMenu extends InlineMenu
 
         if ($this->orders->isEmpty()) {
             $this->menuText('😯 Пусто! Вам пока что не поручено ни одного нового заказа.')->showMenu();
+
             return;
         }
 
@@ -67,7 +69,6 @@ class GetAssignedOrdersMenu extends InlineMenu
             ->showMenu();
     }
 
-
     public function handlePagination(Nutgram $bot): void
     {
         $this->page += $bot->callbackQuery()->data == 'next' ? 1 : -1;
@@ -77,16 +78,17 @@ class GetAssignedOrdersMenu extends InlineMenu
 
     public function showChangeStatusMenu(Nutgram $bot): void
     {
-        $this->clearButtons()->menuText("Вы хотите изменить статус заказа на",
+        $this->clearButtons()->menuText('Вы хотите изменить статус заказа на',
             ['parse_mode' => 'html']);
 
         foreach (OrderStatus::all() as $status) {
-            if (Order::find($bot->callbackQuery()->data)->status->id != $status->id)
+            if (Order::find($bot->callbackQuery()->data)->status->id != $status->id) {
                 $this->addButtonRow(InlineKeyboardButton::make($status->name,
                     callback_data: "{$status->name},{$bot->callbackQuery()->data}@changeStatus"));
+            }
         }
 
-        $this->addButtonRow(InlineKeyboardButton::make("◀️ Вернуться назад", callback_data: "back@returnBack"))
+        $this->addButtonRow(InlineKeyboardButton::make('◀️ Вернуться назад', callback_data: 'back@returnBack'))
             ->orNext('none')
             ->showMenu();
     }
@@ -98,7 +100,7 @@ class GetAssignedOrdersMenu extends InlineMenu
 
     public function changeStatus(Nutgram $bot): void
     {
-        $update_info = explode(",", $bot->callbackQuery()->data);
+        $update_info = explode(',', $bot->callbackQuery()->data);
         $status_name = $update_info[0];
         $order_id = $update_info[1];
 

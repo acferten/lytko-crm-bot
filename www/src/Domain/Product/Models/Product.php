@@ -3,7 +3,9 @@
 namespace Domain\Product\Models;
 
 use Domain\Order\Models\Order;
+use Domain\Product\Observers\ProductObserver;
 use Domain\Shared\Models\BaseModel;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $name
  * @property string $price
  */
+#[ObservedBy([ProductObserver::class])]
 class Product extends BaseModel
 {
     protected $fillable = [

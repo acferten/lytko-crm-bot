@@ -13,6 +13,7 @@ use Spatie\Permission\Models\Role;
 class GetEmployeesMenu extends InlineMenu
 {
     public Collection $employees;
+
     public int $page;
 
     public function start(Nutgram $bot): void
@@ -21,13 +22,15 @@ class GetEmployeesMenu extends InlineMenu
 
         if (is_null($bot_user) || $bot_user->getRoleNames()->doesntContain('administrator')) {
             $this->menuText('🚫 У Вас нет доступа к этой команде.')->showMenu();
+
             return;
         }
 
-        $this->employees = User::with('roles')->get();;
+        $this->employees = User::with('roles')->get();
 
         if ($this->employees->isEmpty()) {
             $this->menuText('😯 Пусто! Сотрудников нет.')->showMenu();
+
             return;
         }
 
@@ -74,16 +77,17 @@ class GetEmployeesMenu extends InlineMenu
 
     public function showChangeRoleMenu(Nutgram $bot): void
     {
-        $this->clearButtons()->menuText("Вы хотите изменить роль сотрудника на",
+        $this->clearButtons()->menuText('Вы хотите изменить роль сотрудника на',
             ['parse_mode' => 'html']);
 
         foreach (Role::all()->pluck('name') as $role) {
-            if (User::find($bot->callbackQuery()->data)->getRoleNames()->first() != $role)
+            if (User::find($bot->callbackQuery()->data)->getRoleNames()->first() != $role) {
                 $this->addButtonRow(InlineKeyboardButton::make($role,
                     callback_data: "{$role},{$bot->callbackQuery()->data}@changeRole"));
+            }
         }
 
-        $this->addButtonRow(InlineKeyboardButton::make("◀️ Вернуться назад", callback_data: "back@returnBack"))
+        $this->addButtonRow(InlineKeyboardButton::make('◀️ Вернуться назад', callback_data: 'back@returnBack'))
             ->orNext('none')
             ->showMenu();
     }
@@ -95,7 +99,7 @@ class GetEmployeesMenu extends InlineMenu
 
     public function changeRole(Nutgram $bot): void
     {
-        $update_info = explode(",", $bot->callbackQuery()->data);
+        $update_info = explode(',', $bot->callbackQuery()->data);
         $role_name = $update_info[0];
         $employee_id = $update_info[1];
 

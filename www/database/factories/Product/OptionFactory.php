@@ -12,7 +12,7 @@ class OptionFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => 'Цвет'
+            'title' => 'Цвет',
         ];
     }
 }

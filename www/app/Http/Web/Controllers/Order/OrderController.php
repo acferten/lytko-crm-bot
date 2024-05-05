@@ -10,6 +10,7 @@ class OrderController
     public function index()
     {
         $orders = Order::all();
+
         return view('pages.order.index', compact('orders'));
     }
 
