@@ -11,7 +11,7 @@ class GetOrderInfoCommand extends Command
 {
     protected string $command = 'order {id}';
 
-    protected ?string $description = 'Получить инфу о заказе';
+    protected ?string $description = 'Get order information';
 
     public function handle(Nutgram $bot, int $id): void
     {

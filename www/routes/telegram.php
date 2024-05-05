@@ -14,7 +14,7 @@ $bot->onCommand('start', function (Nutgram $bot) {
 
 $bot->onCommand('assigned', GetAssignedOrdersMenu::class)->description('Assigned orders');
 
-$bot->onCommand('employees', GetEmployeesMenu::class)->description('Assigned orders');
+$bot->onCommand('employees', GetEmployeesMenu::class)->description('Employees list');
 
 $bot->registerCommand(GetOrderInfoCommand::class)->whereNumber('id');;
 
