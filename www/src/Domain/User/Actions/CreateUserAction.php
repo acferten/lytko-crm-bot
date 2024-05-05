@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class CreateUserAction
 {
-    public static function execute(UserData $data)
+    public static function execute(UserData $data): User
     {
         $user = User::create([
             'name' => $data->name,
