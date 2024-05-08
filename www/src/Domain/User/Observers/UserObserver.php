@@ -14,10 +14,6 @@ class UserObserver
         $this->lytkoSevice = $client;
     }
 
-    public function retrieved(User $user): void
-    {
-        //
-    }
 
     public function created(User $user): void
     {

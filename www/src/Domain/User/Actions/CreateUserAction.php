@@ -11,13 +11,17 @@ class CreateUserAction
 {
     public static function execute(UserData $data): User
     {
-        $user = User::create([
-            'name' => $data->name,
-            'surname' => $data->surname,
-            'email' => $data->email,
-            'login' => $data->login,
-            'password' => Hash::make($data->password),
-        ]);
+        $user = User::updateOrCreate(
+            [
+                'email' => $data->email
+            ],
+            [
+                'name' => $data->name,
+                'surname' => $data->surname,
+                'email' => $data->email,
+                'login' => $data->login,
+                'password' => Hash::make($data->password),
+            ]);
 
         $user->notify(new PasswordGenerated($data->password));
 

@@ -2,6 +2,8 @@
 
 namespace Domain\Shared\Services\Lytko;
 
+use Domain\Product\Actions\UpsertProductAction;
+use Domain\Product\DataTransferObjects\ProductData;
 use Domain\Shared\Services\Concerns\HasFake;
 use Domain\User\Actions\CreateUserAction;
 use Domain\User\DataTransferObjects\UserData;
@@ -45,9 +47,9 @@ class Client
     public function users(): Collection
     {
         $response = $this->request()
-            ->get("{$this->uri}/users", [
+            ->get("{$this->uri}/wp/v2/users", [
                 'context' => 'edit',
-                'per_page' => 5,
+                'per_page' => 15,
             ])->throw()
             ->json();
 
@@ -58,6 +60,28 @@ class Client
 
             $collection->add(
                 item: CreateUserAction::execute($data),
+            );
+        }
+
+        return $collection;
+    }
+
+    public function products(): Collection
+    {
+        $response = $this->request()
+            ->get("{$this->uri}/wc/v3/products", [
+                'status' => 'publish',
+                'per_page' => 15,
+            ])->throw()
+            ->json();
+
+        $collection = new Collection();
+
+        foreach ($response as $product) {
+            $data = ProductData::fromResponse($product);
+
+            $collection->add(
+                item: UpsertProductAction::execute($data),
             );
         }
 

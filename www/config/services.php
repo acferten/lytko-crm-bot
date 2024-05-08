@@ -32,7 +32,7 @@ return [
     ],
 
     'lytko' => [
-        'uri' => env('LYTKO_API_URI', 'https://lytko.com/wp-json/wp/v2'),
+        'uri' => env('LYTKO_API_URI', 'https://lytko.com/wp-json'),
         'password' => env('LYTKO_API_PASSWORD'),
         'username' => env('LYTKO_API_USERNAME'),
         'timeout' => env('LYTKO_TIMEOUT', 10),
