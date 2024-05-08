@@ -20,13 +20,9 @@ class UserData extends Data
     {
     }
 
-    public static function fromRequest(Request $request): self
-    {
-        return self::from([
-            ...$request->all(),
-        ]);
-    }
-
+    /**
+     * Parse response from WordPress API
+     */
     public static function fromResponse(array $user): self
     {
         return new self(
