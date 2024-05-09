@@ -25,6 +25,6 @@ class Option extends BaseModel
 
     public function values(): HasMany
     {
-        return $this->hasMany(OptionValue::class);
+        return $this->hasMany(OptionValue::class, 'option_id');
     }
 }

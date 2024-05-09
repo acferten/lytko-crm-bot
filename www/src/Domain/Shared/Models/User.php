@@ -34,7 +34,6 @@ class User extends Authenticatable implements \Illuminate\Contracts\Auth\CanRese
     protected $fillable = [
         'login',
         'email',
-        'password',
         'name',
         'surname',
         'patronymic',

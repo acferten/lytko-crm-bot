@@ -11,7 +11,7 @@
             </div>
             <div class="account__data">
                 <div class="account__name fw-bold">{{auth()->user()->name}}</div>
-                <div class="account__post opacity-50 mt-1">{{auth()->user()->surname}}</div>
+                <div class="account__post opacity-50 mt-1">{{auth()->user()->getRoleNames()->first()}}</div>
             </div>
         </div>
         <div class="dropdown d-flex justify-content-center align-items-center">

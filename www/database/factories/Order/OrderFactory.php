@@ -15,6 +15,7 @@ class OrderFactory extends Factory
         return [
             'status_id' => 1,
             'address_id' => Address::all()->random()->id,
+            'employee_id' => 5
         ];
     }
 }

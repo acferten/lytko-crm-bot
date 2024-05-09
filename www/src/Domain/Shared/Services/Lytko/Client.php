@@ -72,6 +72,29 @@ class Client
             ->get("{$this->uri}/wc/v3/products", [
                 'status' => 'publish',
                 'per_page' => 15,
+                'id' => 12110
+            ])->throw()
+            ->json();
+
+        $collection = new Collection();
+
+        foreach ($response as $product) {
+            $data = ProductData::fromResponse($product);
+
+            $collection->add(
+                item: UpsertProductAction::execute($data),
+            );
+        }
+
+        return $collection;
+    }
+
+    public function orders(): Collection
+    {
+        $response = $this->request()
+            ->get("{$this->uri}/wc/v3/products", [
+                'status' => 'publish',
+                'per_page' => 15,
             ])->throw()
             ->json();
 

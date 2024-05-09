@@ -17,7 +17,9 @@ class OrderSeeder extends Seeder
             OrderStatus::factory()->count(1)
                 ->state(['name' => $status])->create();
         }
+
         Address::factory()->count(5)->create();
+
         Order::factory()->count(5)->afterCreating(function (Order $order) {
             $order->products()->attach(Product::all()->random(3), ['value_id' => 1]);
         })->create();

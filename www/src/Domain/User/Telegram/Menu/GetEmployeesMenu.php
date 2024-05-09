@@ -26,7 +26,7 @@ class GetEmployeesMenu extends InlineMenu
             return;
         }
 
-        $this->employees = User::with('roles')->get();
+        $this->employees = User::whereNot('id', $bot_user->id)->withoutRole('customer')->get();
 
         if ($this->employees->isEmpty()) {
             $this->menuText('😯 Пусто! Сотрудников нет.')->showMenu();
@@ -80,7 +80,7 @@ class GetEmployeesMenu extends InlineMenu
         $this->clearButtons()->menuText('Вы хотите изменить роль сотрудника на',
             ['parse_mode' => 'html']);
 
-        foreach (Role::all()->pluck('name') as $role) {
+        foreach (Role::whereNot('name', 'customer')->get()->pluck('name') as $role) {
             if (User::find($bot->callbackQuery()->data)->getRoleNames()->first() != $role) {
                 $this->addButtonRow(InlineKeyboardButton::make($role,
                     callback_data: "{$role},{$bot->callbackQuery()->data}@changeRole"));

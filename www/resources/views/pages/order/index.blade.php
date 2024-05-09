@@ -9,9 +9,9 @@
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Заказчик</th>
+                <th>Адрес</th>
                 <th>Статус</th>
-                <th>Статус</th>
+                <th>Продукты</th>
 
             </tr>
             </thead>
@@ -19,10 +19,11 @@
             @foreach ($orders as $order)
                 <tr>
                     <th>{{ $order->id }}</th>
-                    <th>{{ $order->name }}</th>
-                    <th>{{ $order->country }}</th>
-                    <th>{{ $order->city }}</th>
-                    <th>{{ $order->email }}</th>
+                    <th>{!! "{$order->address->name} {$order->address->surname}, {$order->address->company_name},<br>
+                        {$order->address->country}, {$order->address->state}, {$order->address->city}, <br>{$order->address->street}, {$order->address->house_number}, {$order->address->zip_code},
+                        <br>{$order->address->phone}, {$order->address->email}, {$order->address->telegram_username}" !!}</th>
+                    <th>{{ $order->status->name }}</th>
+                    <th>{!!  $order->products->implode('name', ', <br>') !!}</th>
                 </tr>
             @endforeach
             </tbody>

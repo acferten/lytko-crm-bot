@@ -13,7 +13,7 @@ class OptionData extends Data
     {
     }
 
-    public static function fromArray(array $data)
+    public static function fromArray(array $data): OptionData
     {
         return new self(
             title: $data['name'],

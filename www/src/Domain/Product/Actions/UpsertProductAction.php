@@ -20,6 +20,14 @@ class UpsertProductAction
 
         $product->photos()->createMany($data->photos->toArray());
 
+        foreach ($data->options as $option) {
+            $createdOption = $product->options()->create([...$option->toArray()]);
+
+            foreach ($option->values as $value) {
+                $createdOption->values()->create(['name' => $value]);
+            }
+        }
+
         return $product->refresh()->load('photos');
     }
 }
