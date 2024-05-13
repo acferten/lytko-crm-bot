@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigInteger('status_id');
             $table->bigInteger('employee_id')->nullable();
             $table->bigInteger('address_id')->nullable();
+            $table->bigInteger('wordpress_id')->nullable();
 
             $table->foreign('status_id')->references('id')->on('order_statuses');
             $table->foreign('user_id')->references('id')->on('users');

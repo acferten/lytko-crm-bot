@@ -12,7 +12,8 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products');
-            $table->string('file');
+            $table->string('file')->nullable();
+            $table->string('url')->nullable();
             $table->timestamps();
         });
     }

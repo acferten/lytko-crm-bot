@@ -14,7 +14,6 @@ class UserObserver
         $this->lytkoSevice = $client;
     }
 
-
     public function created(User $user): void
     {
         //

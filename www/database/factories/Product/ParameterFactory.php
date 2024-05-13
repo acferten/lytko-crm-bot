@@ -2,18 +2,17 @@
 
 namespace Database\Factories\Product;
 
-use Domain\Product\Models\Option;
+use Domain\Product\Models\Parameter;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class OptionFactory extends Factory
+class ParameterFactory extends Factory
 {
-    protected $model = Option::class;
+    protected $model = Parameter::class;
 
     public function definition(): array
     {
         return [
-            'name' => 'Белый',
-            'parameter_id' => 1,
+            'title' => 'Цвет',
         ];
     }
 }

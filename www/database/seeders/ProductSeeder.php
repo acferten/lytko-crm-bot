@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Domain\Product\Models\Option;
-use Domain\Product\Models\OptionValue;
+use Domain\Product\Models\Parameter;
 use Domain\Product\Models\Product;
 use Domain\Product\Models\ProductStatus;
 use Illuminate\Database\Eloquent\Factories\Sequence;
@@ -19,5 +19,7 @@ class ProductSeeder extends Seeder
                 ['name' => 'Доступно для предзаказа'],
             ))
             ->create();
+
+        Product::factory()->has(Parameter::factory()->has(Option::factory()))->count(5)->create();
     }
 }

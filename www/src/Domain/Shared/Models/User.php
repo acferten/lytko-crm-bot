@@ -38,6 +38,7 @@ class User extends Authenticatable implements \Illuminate\Contracts\Auth\CanRese
         'surname',
         'patronymic',
         'telegram_id',
+        'password',
         'telegram_username',
     ];
 

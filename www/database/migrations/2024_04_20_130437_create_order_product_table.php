@@ -15,11 +15,10 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('product_id');
             $table->bigInteger('order_id');
-            $table->bigInteger('value_id');
 
             $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('order_id')->references('id')->on('orders');
-            $table->foreign('value_id')->references('id')->on('option_values');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }

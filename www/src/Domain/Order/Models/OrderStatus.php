@@ -13,6 +13,7 @@ class OrderStatus extends BaseModel
 {
     protected $fillable = [
         'name',
+        'slug',
     ];
 
     public function orders(): hasMany

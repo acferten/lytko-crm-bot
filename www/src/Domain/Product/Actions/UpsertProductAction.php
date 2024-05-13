@@ -11,11 +11,11 @@ class UpsertProductAction
     {
         $product = Product::updateOrCreate(
             [
-                'name' => $data->name
+                'name' => $data->name,
             ],
             [
                 ...$data->all(),
-                'status_id' => 1
+                'status_id' => 1,
             ]);
 
         $product->photos()->createMany($data->photos->toArray());

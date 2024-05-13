@@ -8,17 +8,17 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('option_values', function (Blueprint $table) {
+        Schema::create('parameters', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('option_id');
-            $table->foreign('option_id')->references('id')->on('options');
-            $table->string('name');
+            $table->string('title');
+            $table->bigInteger('product_id');
+            $table->foreign('product_id')->references('id')->on('products');
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('option_values');
+        Schema::dropIfExists('parameters');
     }
 };

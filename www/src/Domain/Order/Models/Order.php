@@ -28,6 +28,7 @@ class Order extends BaseModel
         'status_id',
         'employee_id',
         'address_id',
+        'wordpress_id',
     ];
 
     public function user(): BelongsTo
@@ -47,7 +48,9 @@ class Order extends BaseModel
 
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class)
+            ->withPivot('quantity', 'id')
+            ->using(OrderProduct::class);
     }
 
     public function address(): BelongsTo

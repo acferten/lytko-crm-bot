@@ -11,24 +11,12 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::factory()
-            ->count(2)->afterCreating(function (User $user) {
-                $user->assignRole('administrator');
-            })
-            ->create();
-
-        User::factory()
-            ->count(2)->afterCreating(function (User $user) {
-                $user->assignRole('shop_manager');
-            })
-            ->create();
-
-        User::factory()
             ->afterCreating(function (User $user) {
                 $user->assignRole('administrator');
             })->state(new Sequence(
                 ['telegram_username' => 'grepnam3',
                     'telegram_id' => 472041603,
-                    'login' => 'grepnam3'
+                    'login' => 'grepnam3',
                 ]))->create();
     }
 }

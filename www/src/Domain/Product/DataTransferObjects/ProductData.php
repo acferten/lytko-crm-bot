@@ -2,24 +2,22 @@
 
 namespace Domain\Product\DataTransferObjects;
 
-use Illuminate\Support\Facades\Request;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\DataCollection;
 
 class ProductData extends Data
 {
     public function __construct(
-        public readonly ?int    $id,
-        public readonly string  $name,
-        public readonly string  $short_description,
+        public readonly ?int $id,
+        public readonly string $name,
+        public readonly string $short_description,
         public readonly ?string $description,
-        public readonly string  $price,
+        public readonly string $price,
         /** @var DataCollection<ProductPhotoData> */
         public readonly ?DataCollection $photos,
         /** @var DataCollection<OptionData> */
         public readonly ?DataCollection $options,
-    )
-    {
+    ) {
     }
 
     /**

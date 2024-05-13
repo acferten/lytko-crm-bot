@@ -2,29 +2,32 @@
 
 namespace Domain\Product\Models;
 
+use Domain\Order\Models\OrderProduct;
 use Domain\Shared\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property int $id
  * @property string $name
- * @property string $price
+ * @property string $parameter_id
+ * @property Parameter $parameter
  */
 class Option extends BaseModel
 {
     protected $fillable = [
-        'title',
-        'product_id',
+        'parameter_id',
+        'name',
     ];
 
-    public function product(): BelongsTo
+    public function parameter(): BelongsTo
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Parameter::class);
     }
 
-    public function values(): HasMany
+    public function orderProducts(): belongsToMany
     {
-        return $this->hasMany(OptionValue::class, 'option_id');
+        return $this->belongsToMany(OrderProduct::class,
+            'order_product_option', 'option_id', 'order_product_id');
     }
 }

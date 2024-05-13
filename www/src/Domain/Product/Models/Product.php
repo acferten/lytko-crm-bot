@@ -36,9 +36,9 @@ class Product extends BaseModel
         return $this->hasMany(ProductPhoto::class);
     }
 
-    public function options(): HasMany
+    public function parameters(): HasMany
     {
-        return $this->hasMany(Option::class);
+        return $this->hasMany(Parameter::class);
     }
 
     public function details(): HasMany
@@ -48,6 +48,6 @@ class Product extends BaseModel
 
     public function orders(): BelongsToMany
     {
-        return $this->belongsToMany(Order::class);
+        return $this->belongsToMany(Order::class)->withPivot('quantity', 'value_id');
     }
 }

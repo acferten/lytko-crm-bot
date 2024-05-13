@@ -6,25 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('options', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->bigInteger('product_id');
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->bigInteger('parameter_id');
+            $table->foreign('parameter_id')->references('id')->on('parameters')
+                ->onDelete('cascade');
+            $table->string('name');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('options');
+        Schema::dropIfExists('parameter_options');
     }
 };

@@ -11,19 +11,30 @@ class CreateUserAction
 {
     public static function execute(UserData $data): User
     {
-        $user = User::updateOrCreate(
-            [
-                'email' => $data->email
-            ],
-            [
+        $user = User::where('email', $data->email)->first();
+
+        if ($user) {
+            $user->update([
                 'name' => $data->name,
                 'surname' => $data->surname,
                 'email' => $data->email,
                 'login' => $data->login,
-                'password' => Hash::make($data->password),
             ]);
+        } else {
+            $user = User::create(
+                [
+                    'email' => $data->email,
+                    'name' => $data->name,
+                    'surname' => $data->surname,
+                    'login' => $data->login,
+                    'password' => Hash::make($data->password),
+                ]);
+            try {
+                $user->notify(new PasswordGenerated($data->password));
+            } catch (\Exception $exception) {
 
-        $user->notify(new PasswordGenerated($data->password));
+            }
+        }
 
         $user->assignRole($data->role);
 

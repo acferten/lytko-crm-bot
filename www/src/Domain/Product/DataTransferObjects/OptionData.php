@@ -8,9 +8,8 @@ class OptionData extends Data
 {
     public function __construct(
         public readonly string $title,
-        public readonly ?array  $values,
-    )
-    {
+        public readonly ?array $values,
+    ) {
     }
 
     public static function fromArray(array $data): OptionData

@@ -2,22 +2,20 @@
 
 namespace Domain\User\DataTransferObjects;
 
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 use Spatie\LaravelData\Data;
 
 class UserData extends Data
 {
     public function __construct(
-        public readonly ?int    $id,
-        public readonly string  $email,
+        public readonly ?int $id,
+        public readonly string $email,
         public readonly ?string $name,
-        public readonly string  $login,
+        public readonly string $login,
         public readonly ?string $surname,
-        public readonly string  $role,
-        public readonly string  $password,
-    )
-    {
+        public readonly string $role,
+        public readonly string $password,
+    ) {
     }
 
     /**

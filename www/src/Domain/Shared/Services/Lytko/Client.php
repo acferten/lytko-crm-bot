@@ -2,6 +2,8 @@
 
 namespace Domain\Shared\Services\Lytko;
 
+use Domain\Order\Actions\UpsertOrderAction;
+use Domain\Order\DataTransferObjects\OrderData;
 use Domain\Product\Actions\UpsertProductAction;
 use Domain\Product\DataTransferObjects\ProductData;
 use Domain\Shared\Services\Concerns\HasFake;
@@ -46,68 +48,79 @@ class Client
 
     public function users(): Collection
     {
-        $response = $this->request()
-            ->get("{$this->uri}/wp/v2/users", [
-                'context' => 'edit',
-                'per_page' => 15,
-            ])->throw()
-            ->json();
-
+        $page = 1;
         $collection = new Collection();
 
-        foreach ($response as $user) {
-            $data = UserData::fromResponse($user);
+        do {
+            $response = $this->request()
+                ->get("{$this->uri}/wp/v2/users", [
+                    'context' => 'edit',
+                    'per_page' => 100,
+                    'page' => $page,
+                ])->throw();
 
-            $collection->add(
-                item: CreateUserAction::execute($data),
-            );
-        }
+            foreach ($response->json() as $user) {
+                $data = UserData::fromResponse($user);
+
+                $collection->add(
+                    item: CreateUserAction::execute($data),
+                );
+            }
+            $page++;
+        } while ($page <= $response->header('X-WP-TotalPages'));
 
         return $collection;
     }
 
     public function products(): Collection
     {
-        $response = $this->request()
-            ->get("{$this->uri}/wc/v3/products", [
-                'status' => 'publish',
-                'per_page' => 15,
-                'id' => 12110
-            ])->throw()
-            ->json();
-
+        $page = 1;
         $collection = new Collection();
 
-        foreach ($response as $product) {
-            $data = ProductData::fromResponse($product);
+        do {
+            $response = $this->request()
+                ->get("{$this->uri}/wc/v3/products", [
+                    'status' => 'publish',
+                    'per_page' => 100,
+                    'page' => $page,
+                ])->throw();
 
-            $collection->add(
-                item: UpsertProductAction::execute($data),
-            );
-        }
+            foreach ($response->json() as $product) {
+                $data = ProductData::fromResponse($product);
+
+                $collection->add(
+                    item: UpsertProductAction::execute($data),
+                );
+            }
+            $page++;
+        } while ($page <= $response->header('X-WP-TotalPages'));
 
         return $collection;
     }
 
-    public function orders(): Collection
+    public function orders()
     {
-        $response = $this->request()
-            ->get("{$this->uri}/wc/v3/products", [
-                'status' => 'publish',
-                'per_page' => 15,
-            ])->throw()
-            ->json();
-
+        $page = 1;
         $collection = new Collection();
 
-        foreach ($response as $product) {
-            $data = ProductData::fromResponse($product);
+        do {
+            $response = $this->request()
+                ->get("{$this->uri}/wc/v3/orders", [
+                    'per_page' => 100,
+                    'context' => 'edit',
+                    'page' => $page,
+                ])->throw();
 
-            $collection->add(
-                item: UpsertProductAction::execute($data),
-            );
-        }
+            foreach ($response->json() as $order) {
+                $data = OrderData::fromResponse($order);
 
-        return $collection;
+                $collection->add(
+                    item: UpsertOrderAction::execute($data)
+                );
+            }
+            $page++;
+        } while ($page <= $response->header('X-WP-TotalPages'));
+
+        return $collection->count();
     }
 }
