@@ -15,6 +15,7 @@ return new class extends Migration
             $table->text('description');
             $table->float('price');
             $table->bigInteger('status_id');
+            $table->bigInteger('wordpress_id')->nullable();
             $table->foreign('status_id')->references('id')->on('product_statuses');
             $table->timestamps();
         });

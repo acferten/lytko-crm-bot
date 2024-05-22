@@ -8,16 +8,18 @@ use Spatie\LaravelData\DataCollection;
 class ProductData extends Data
 {
     public function __construct(
-        public readonly ?int $id,
-        public readonly string $name,
-        public readonly string $short_description,
-        public readonly ?string $description,
-        public readonly string $price,
+        public readonly ?int            $id,
+        public readonly string          $name,
+        public readonly string          $short_description,
+        public readonly int             $wordpress_id,
+        public readonly ?string         $description,
+        public readonly string          $price,
         /** @var DataCollection<ProductPhotoData> */
         public readonly ?DataCollection $photos,
-        /** @var DataCollection<OptionData> */
-        public readonly ?DataCollection $options,
-    ) {
+        /** @var DataCollection<ParameterData> */
+        public readonly ?DataCollection $parameters,
+    )
+    {
     }
 
     /**
@@ -29,10 +31,11 @@ class ProductData extends Data
             id: null,
             name: $product['name'],
             short_description: $product['short_description'],
+            wordpress_id: $product['id'],
             description: $product['description'],
             price: $product['price'],
             photos: ProductPhotoData::collect($product['images'], DataCollection::class),
-            options: OptionData::collect($product['attributes'], DataCollection::class),
+            parameters: ParameterData::collect($product['attributes'], DataCollection::class),
         );
     }
 }

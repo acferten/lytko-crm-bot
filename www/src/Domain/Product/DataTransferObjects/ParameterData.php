@@ -4,19 +4,19 @@ namespace Domain\Product\DataTransferObjects;
 
 use Spatie\LaravelData\Data;
 
-class OptionData extends Data
+class ParameterData extends Data
 {
     public function __construct(
         public readonly string $title,
-        public readonly ?array $values,
+        public readonly ?array $options,
     ) {
     }
 
-    public static function fromArray(array $data): OptionData
+    public static function fromArray(array $data): ParameterData
     {
         return new self(
             title: $data['name'],
-            values: $data['options']
+            options: $data['options']
         );
     }
 }

@@ -1,7 +1,7 @@
 @props(['title' => '', 'iconName' => '', 'isActive' => false])
 
 <div class="accordion">
-    <div {{ $attributes->class(['accordion__button', 'user-select-none', 'd-flex', 'align-items-center', 'justify-content-between', 'fw-bold', 'accordion__button--open' => $isActive])  }}>
+    <div {{ $attributes->class(['accordion__button', 'user-select-none', 'd-flex', 'align-items-center', 'justify-content-between', 'fw-semibold', 'accordion__button--open' => $isActive])  }}>
         <div class="accordion__main-text d-flex gap-3">
             <span class="accordion__icon">
                 @include('components.icons.app-icon', ['name' => $iconName])

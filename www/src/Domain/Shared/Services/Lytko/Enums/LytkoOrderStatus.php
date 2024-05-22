@@ -19,4 +19,5 @@ enum LytkoOrderStatus: string
     case sent = 'm3woh0t1wn';
     case delivering = 'delivering';
     case refunded = 'refunded';
+    case poluchen = 'poluchen';
 }

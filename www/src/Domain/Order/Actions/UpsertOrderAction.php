@@ -5,10 +5,11 @@ namespace Domain\Order\Actions;
 use Domain\Order\DataTransferObjects\OrderData;
 use Domain\Order\Models\Address;
 use Domain\Order\Models\Order;
+use Illuminate\Support\Facades\Log;
 
 class UpsertOrderAction
 {
-    public static function execute(OrderData $data): Order
+    public static function execute(OrderData $data)
     {
         $order = Order::where(['wordpress_id' => $data->wordpress_id])->first();
 
@@ -25,12 +26,28 @@ class UpsertOrderAction
                     'wordpress_id' => $data->wordpress_id,
                 ]);
 
-            $order->products()->attach($data->products->pluck('id'), ['value_id' => 1, 'quantity' => 1]);
+            foreach ($data->products as $product) {
+                $order->products()->attach($product->product->id, ['quantity' => $product->quantity]);
+
+                Log::debug($product->options->pluck('options')[0]->each(
+                    function ($option) {
+                        return $option->name;
+                    }
+                ));
+
+                if ($product->options) {
+                    $attached = $order->products()->find($product->product->id);
+                    foreach ($product->options->pluck('options') as $option) {
+                        $attached->pivot->options()->attach($option->first()?->id);
+                    }
+                }
+            }
+
             $address = Address::create([...$data->address->all()]);
             $order->address()->associate($address->id);
             $order->save();
         }
 
-        return $order->refresh()->load('address', 'products');
+        return $order->refresh()->load('address', 'products')->products->each(fn($product) => $product->pivot->load('options'));
     }
 }

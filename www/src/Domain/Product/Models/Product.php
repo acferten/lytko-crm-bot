@@ -24,6 +24,7 @@ class Product extends BaseModel
         'description',
         'price',
         'status_id',
+        'wordpress_id'
     ];
 
     public function status(): BelongsTo

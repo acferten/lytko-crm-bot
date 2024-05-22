@@ -4,6 +4,7 @@ namespace Domain\Shared\Services\Lytko;
 
 use Domain\Order\Actions\UpsertOrderAction;
 use Domain\Order\DataTransferObjects\OrderData;
+use Domain\Order\Models\Order;
 use Domain\Product\Actions\UpsertProductAction;
 use Domain\Product\DataTransferObjects\ProductData;
 use Domain\Shared\Services\Concerns\HasFake;
@@ -21,10 +22,11 @@ class Client
         protected string $uri,
         protected string $username,
         protected string $password,
-        protected int $timeout = 10,
-        protected ?int $retryTimes = null,
-        protected ?int $retryMilliseconds = null,
-    ) {
+        protected int    $timeout = 10,
+        protected ?int   $retryTimes = null,
+        protected ?int   $retryMilliseconds = null,
+    )
+    {
     }
 
     private function request(): PendingRequest
@@ -36,7 +38,7 @@ class Client
                 seconds: $this->timeout,
             );
 
-        if (! is_null($this->retryTimes) && ! is_null($this->retryMilliseconds)) {
+        if (!is_null($this->retryTimes) && !is_null($this->retryMilliseconds)) {
             $request->retry(
                 times: $this->retryTimes,
                 sleepMilliseconds: $this->retryMilliseconds,
@@ -121,6 +123,6 @@ class Client
             $page++;
         } while ($page <= $response->header('X-WP-TotalPages'));
 
-        return $collection->count();
+        return $collection;
     }
 }

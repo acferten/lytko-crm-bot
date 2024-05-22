@@ -11,7 +11,7 @@ class OrderStatusSeeder extends Seeder
     public function run(): void
     {
         OrderStatus::factory()
-            ->count(17)
+            ->count(18)
             ->state(new Sequence(
                 ['name' => 'Новый', 'slug' => 'new'],
                 ['name' => 'Подтвержден', 'slug' => 'approved'],
@@ -30,6 +30,7 @@ class OrderStatusSeeder extends Seeder
                 ['name' => 'Отменен', 'slug' => 'cancelled'],
                 ['name' => 'Доставляется', 'slug' => 'delivering'],
                 ['name' => 'Возвращен', 'slug' => 'refunded'],
+                ['name' => 'Получен', 'slug' => 'poluchen'],
             ))
             ->create();
     }
