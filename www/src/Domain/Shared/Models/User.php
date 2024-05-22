@@ -15,8 +15,9 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
- * @property string $first_name
- * @property string $last_name
+ * @property string $name
+ * @property string $surname
+ * @property string $patronymic
  * @property string $username
  * @property string $password
  * @property string $email
@@ -50,6 +51,11 @@ class User extends Authenticatable implements \Illuminate\Contracts\Auth\CanRese
     protected static function newFactory()
     {
         return app(UserFactory::class);
+    }
+
+    public function getFullName(): string
+    {
+        return "{$this->surname} {$this->name} {$this->patronymic}";
     }
 
     public function orders(): hasMany

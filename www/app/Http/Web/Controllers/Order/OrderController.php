@@ -26,7 +26,7 @@ class OrderController
 
     public function show(Order $order)
     {
-        //
+        return view('pages.order.show', compact('order'));
     }
 
     public function edit(Order $order)

@@ -7,10 +7,12 @@
             <div class="account__avatar d-flex justify-content-center align-items-center rounded-circle">
                 KS
             </div>
+            @auth
             <div class="account__data">
                 <div class="account__name fw-bold">{{auth()->user()->name}} {{auth()->user()->surname}}</div>
                 <div class="account__post opacity-50 mt-1">{{auth()->user()->getRoleNames()->first()}}</div>
             </div>
+            @endauth
         </div>
         <div class="dropdown d-flex justify-content-center align-items-center">
             <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">

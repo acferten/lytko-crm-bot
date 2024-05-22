@@ -33,12 +33,12 @@ class Order extends BaseModel
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function employee(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'employee_id');
     }
 
     public function status(): BelongsTo
