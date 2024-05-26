@@ -4,6 +4,7 @@ namespace Domain\Order\Telegram\Menu;
 
 use Domain\Order\Models\Order;
 use Domain\Order\Models\OrderStatus;
+use Domain\Order\Notifications\EmployeeAssignedToOrderNotification;
 use Domain\Order\Notifications\OrderStatusChangedNotification;
 use Domain\Order\Telegram\Messages\OrderCardMessage;
 use Domain\Shared\Models\User;
@@ -12,7 +13,7 @@ use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 
-class GetAssignedOrdersMenu extends InlineMenu
+class AssignEmployeeToOrderMenu extends InlineMenu
 {
     public Collection $orders;
 
@@ -22,21 +23,15 @@ class GetAssignedOrdersMenu extends InlineMenu
     {
         $employee = User::where('telegram_id', $bot->userId())->first();
 
-        if (is_null($employee)) {
+        if (is_null($employee) || !$employee->hasRole('administrator')) {
             $this->menuText('🚫 У Вас нет доступа к этой команде.')->showMenu();
 
             return;
         }
-        if ($employee->hasRole('administrator')) {
-            $this->orders = Order::whereNot('status_id',
-                OrderStatus::where('slug', 'completed')->first()->id)
-                ->get();
-        } else {
-            $this->orders = $employee->assignments;
-        }
+        $this->orders = Order::whereNull('employee_id')->get();
 
         if ($this->orders->isEmpty()) {
-            $this->menuText('😯 Пусто! Вам пока что не поручено ни одного нового заказа.')->showMenu();
+            $this->menuText('😯 Пусто! Заказов без сотрудника нет.')->showMenu();
 
             return;
         }
@@ -59,8 +54,8 @@ class GetAssignedOrdersMenu extends InlineMenu
         // Attaching order info
         $this->clearButtons()->menuText($card, ['parse_mode' => 'html']);
 
-        $this->addButtonRow(InlineKeyboardButton::make('✍️ Изменить статус',
-            callback_data: "{$order->id}@showChangeStatusMenu"));
+        $this->addButtonRow(InlineKeyboardButton::make('🧑 Поручить заказ сотруднику',
+            callback_data: "{$order->id}@showEmployeesMenu"));
 
         // Pagination buttons
         if ($this->orders->get($this->page - 1)) {
@@ -82,15 +77,17 @@ class GetAssignedOrdersMenu extends InlineMenu
         $this->getOrderLayout($bot);
     }
 
-    public function showChangeStatusMenu(Nutgram $bot): void
+    public function showEmployeesMenu(Nutgram $bot): void
     {
-        $this->clearButtons()->menuText('Вы хотите изменить статус заказа на',
+        // $bot->callbackQuery()->data is order_id
+
+        $this->clearButtons()->menuText('Поручить заказ сотруднику:',
             ['parse_mode' => 'html']);
 
-        foreach (OrderStatus::all() as $status) {
-            if (Order::find($bot->callbackQuery()->data)->status->id != $status->id) {
-                $this->addButtonRow(InlineKeyboardButton::make($status->name,
-                    callback_data: "{$status->name},{$bot->callbackQuery()->data}@changeStatus"));
+        foreach (User::withoutRole('customer')->get() as $user) {
+            if (User::where('telegram_id', $bot->userId())->first()->id != $user->id) {
+                $this->addButtonRow(InlineKeyboardButton::make($user->getFullName(),
+                    callback_data: "{$user->id},{$bot->callbackQuery()->data}@assignOrder"));
             }
         }
 
@@ -104,20 +101,17 @@ class GetAssignedOrdersMenu extends InlineMenu
         $this->getOrderLayout($bot);
     }
 
-    public function changeStatus(Nutgram $bot): void
+    public function assignOrder(Nutgram $bot): void
     {
         $update_info = explode(',', $bot->callbackQuery()->data);
-        $status_name = $update_info[0];
-        $order_id = $update_info[1];
+        $employee = User::find($update_info[0]);
+        $order = Order::find($update_info[1]);
 
-        $status = OrderStatus::where('name', $status_name)->first();
-
-        $order = Order::find($order_id);
         $order->update(
-            ['status_id' => $status->id]
+            ['employee_id' => $employee->id]
         );
 
-        OrderStatusChangedNotification::send($order);
+        EmployeeAssignedToOrderNotification::send($employee, $order);
 
         $this->start($bot);
     }

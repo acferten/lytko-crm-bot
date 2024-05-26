@@ -23,6 +23,8 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string $email
  * @property string $about
  * @property string $profile_picture
+ * @property int $telegram_id
+ * @property string $telegram_username
  */
 #[ObservedBy([UserObserver::class])]
 class User extends Authenticatable implements \Illuminate\Contracts\Auth\CanResetPassword, MustVerifyEmail
