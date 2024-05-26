@@ -3,30 +3,16 @@
 namespace Domain\Order\Observers;
 
 use Domain\Order\Models\Order;
+use Domain\Shared\Services\Lytko\Client;
 
 class OrderObserver
 {
-    public function created(Order $order): void
+    public function __construct(Client $client)
     {
-        //
+
     }
 
     public function updated(Order $order): void
-    {
-        //
-    }
-
-    public function deleted(Order $order): void
-    {
-        //
-    }
-
-    public function restored(Order $order): void
-    {
-        //
-    }
-
-    public function forceDeleted(Order $order): void
     {
         //
     }

@@ -5,7 +5,6 @@ namespace Domain\Order\DataTransferObjects;
 use Domain\Order\Models\Order;
 use Domain\Order\Models\OrderStatus;
 use Domain\Shared\Models\User;
-use Domain\Shared\Services\Lytko\Enums\LytkoOrderStatus;
 use Illuminate\Support\Collection;
 use Spatie\LaravelData\Data;
 
@@ -42,7 +41,7 @@ class OrderData extends Data
 
         return new self(
             wordpress_id: $order['id'],
-            status: OrderStatus::where(['slug' => LytkoOrderStatus::from($order['status'])->name])->first(),
+            status: OrderStatus::where('wordpress_slug', $order['status'])->first(),
             user: User::where(['email' => $order['billing']['email']])->first(),
             products: OrderProductData::collect($order['line_items'], Collection::class),
             address: AddressData::from($order['billing'],

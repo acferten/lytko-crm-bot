@@ -8,12 +8,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @property int $id
  * @property string $name
+ * @property string $slug
+ * @property string $wordpress_slug
  */
 class OrderStatus extends BaseModel
 {
     protected $fillable = [
         'name',
         'slug',
+        'wordpress_slug'
     ];
 
     public function orders(): hasMany

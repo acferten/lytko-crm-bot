@@ -125,4 +125,12 @@ class Client
 
         return $collection;
     }
+
+    public function updateOrderStatus(Order $order): void
+    {
+        $this->request()
+            ->put("{$this->uri}/wc/v3/orders/{$order->wordpress_id}", [
+                'status' => $order->status->wordpress_slug,
+            ])->throw();
+    }
 }

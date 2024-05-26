@@ -16,6 +16,7 @@ use Illuminate\Support\Collection;
  * @property int $status_id
  * @property int $user_id
  * @property int $employee_id
+ * @property int $wordpress_id
  * @property Address $address
  * @property OrderStatus $status
  * @property Collection<Product> $products
@@ -30,6 +31,11 @@ class Order extends BaseModel
         'address_id',
         'wordpress_id',
     ];
+
+    public function getWordPressUrl()
+    {
+        return "https://lytko.com/wp-admin/post.php?post={$this->wordpress_id}&action=edit";
+    }
 
     public function user(): BelongsTo
     {

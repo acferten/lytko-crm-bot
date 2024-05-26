@@ -11,7 +11,8 @@ return new class extends Migration
         Schema::create('order_statuses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('slug');
+            $table->string('slug')->unique();
+            $table->string('wordpress_slug')->unique();
             $table->timestamps();
         });
     }

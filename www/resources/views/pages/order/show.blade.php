@@ -4,13 +4,12 @@
 @endsection
 @section('content')
     <x-cards.table>
-        <div class="d-flex justify-content-between gap-5">
+        <div class="d-flex justify-content-between flex-wrap gap-5">
             <div>
                 <x-typography.card-title>Заказ</x-typography.card-title>
-                <p style="white-space: pre-line;">Заказчик
-                    - {!! \Domain\Order\Telegram\Messages\OrderCardMessage::getCard($order) !!}</p>
+                <p style="white-space: pre-line;"> {!! \Domain\Order\Telegram\Messages\OrderCardMessage::getCard($order) !!}</p>
                 <div class="row">
-                    <a class="btn btn-secondary">Обновить статус</a>
+                    <a class="btn btn-secondary" href="{{route('orders.edit', $order)}}">Обновить статус</a>
                 </div>
 
             </div>
@@ -45,7 +44,3 @@
         </div>
     </x-cards.table>
 @endsection
-
-@push('scripts')
-    <script src="{{asset('js/table/warehouse.js')}}" defer></script>
-@endpush

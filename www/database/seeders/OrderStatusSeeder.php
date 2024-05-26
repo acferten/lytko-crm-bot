@@ -11,26 +11,26 @@ class OrderStatusSeeder extends Seeder
     public function run(): void
     {
         OrderStatus::factory()
-            ->count(18)
+            ->count(15)
             ->state(new Sequence(
-                ['name' => 'Новый', 'slug' => 'new'],
-                ['name' => 'Подтвержден', 'slug' => 'approved'],
-                ['name' => 'На удержании (предзаказ)', 'slug' => 'preorder'],
-                ['name' => 'На удержании (юридическое лицо)', 'slug' => 'legalEntity'],
-                ['name' => 'Ожидает сборки', 'slug' => 'pending'],
-                ['name' => 'Передача в службу доставки', 'slug' => 'delivery'],
-                ['name' => 'На сборке', 'slug' => 'underAssembly'],
-                ['name' => 'Собран', 'slug' => 'assembled'],
-                ['name' => 'Отправлен', 'slug' => 'sent'],
-                ['name' => 'Задержка', 'slug' => 'delay'],
-                ['name' => 'Выполнен', 'slug' => 'completed'],
-                ['name' => 'Обрабатывается', 'slug' => 'processing'],
-                ['name' => 'На удержании', 'slug' => 'onHold'],
-                ['name' => 'Ожидает отгрузки', 'slug' => 'awaiting'],
-                ['name' => 'Отменен', 'slug' => 'cancelled'],
-                ['name' => 'Доставляется', 'slug' => 'delivering'],
-                ['name' => 'Возвращен', 'slug' => 'refunded'],
-                ['name' => 'Получен', 'slug' => 'poluchen'],
+            // Default WooCommerce statuses
+                ['name' => 'Новый', 'slug' => 'new', 'wordpress_slug' => 'pending'],
+                ['name' => 'Отменен', 'slug' => 'cancelled', 'wordpress_slug' => 'cancelled'],
+                ['name' => 'Выполнен', 'slug' => 'completed', 'wordpress_slug' => 'completed'],
+                ['name' => 'Обрабатывается', 'slug' => 'processing', 'wordpress_slug' => 'processing'],
+                ['name' => 'На удержании', 'slug' => 'onHold', 'wordpress_slug' => 'on-hold'],
+                ['name' => 'Возврат', 'slug' => 'refunded', 'wordpress_slug' => 'refunded'],
+                ['name' => 'В пути', 'slug' => 'delivering', 'wordpress_slug' => 'delivering'],
+
+                // Custom
+                ['name' => 'Подтвержден', 'slug' => 'approved', 'wordpress_slug' => 'seaxbumb3e'],
+                ['name' => 'Ожидает сборки', 'slug' => 'awaitingAssembly', 'wordpress_slug' => 'xybbcm2838'],
+                ['name' => 'Ожидает отгрузки', 'slug' => 'awaitingShipment', 'wordpress_slug' => 'ojidaet-otgruzki'],
+                ['name' => 'Передача в службу доставки', 'slug' => 'transferToDelivery', 'wordpress_slug' => 'n-a'],
+                ['name' => 'Доставляется', 'slug' => 'sent', 'wordpress_slug' => 'm3woh0t1wn'],
+                ['name' => 'На удержании (предзаказ)', 'slug' => 'preorder', 'wordpress_slug' => 'u8um1phhjs'],
+                ['name' => 'На удержании (юр.лицо)', 'slug' => 'legalEntity', 'wordpress_slug' => 'heceq'],
+                ['name' => 'Получен', 'slug' => 'received', 'wordpress_slug' => 'poluchen'],
             ))
             ->create();
     }
