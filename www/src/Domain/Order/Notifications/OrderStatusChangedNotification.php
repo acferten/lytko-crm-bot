@@ -8,9 +8,9 @@ use Nutgram\Laravel\Facades\Telegram;
 
 class OrderStatusChangedNotification
 {
-    public function send(Order $order): void
+    public static function send(Order $order): void
     {
-        $recipients = User::role('administrator')->get();
+        $recipients = User::role('administrator')->whereNotNull('telegram_id')->get();
 
         $text = "
             Статус заказа #{$order->id} был изменен.

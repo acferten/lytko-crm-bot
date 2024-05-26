@@ -4,6 +4,7 @@ namespace Domain\Order\Telegram\Menu;
 
 use Domain\Order\Models\Order;
 use Domain\Order\Models\OrderStatus;
+use Domain\Order\Notifications\OrderStatusChangedNotification;
 use Domain\Order\Telegram\Messages\OrderCardMessage;
 use Domain\Shared\Models\User;
 use Illuminate\Support\Collection;
@@ -106,9 +107,12 @@ class GetAssignedOrdersMenu extends InlineMenu
 
         $status = OrderStatus::where('name', $status_name)->first();
 
-        Order::find($order_id)->update(
+        $order = Order::find($order_id);
+        $order->update(
             ['status_id' => $status->id]
         );
+
+        OrderStatusChangedNotification::send($order);
 
         $this->start($bot);
     }
