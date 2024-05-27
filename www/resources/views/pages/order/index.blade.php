@@ -18,6 +18,7 @@
             </tr>
             </thead>
             <tbody>
+
             @foreach ($orders as $order)
                 <tr>
                     <th><a href="orders/{{$order->id}}">{{ $order->id }}</a></th>
@@ -35,9 +36,9 @@
             @endforeach
             </tbody>
         </table>
+        @if(!$orders->isEmpty())
+            {{ $orders->links() }}
+        @endif
     </x-cards.table>
 @endsection
 
-@push('scripts')
-    <script src="{{asset('js/table/table.js')}}" defer></script>
-@endpush

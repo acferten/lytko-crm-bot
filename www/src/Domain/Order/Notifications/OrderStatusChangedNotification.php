@@ -3,6 +3,7 @@
 namespace Domain\Order\Notifications;
 
 use Domain\Order\Models\Order;
+use Domain\Order\Telegram\Messages\OrderCardMessage;
 use Domain\Shared\Models\User;
 use Nutgram\Laravel\Facades\Telegram;
 
@@ -12,15 +13,15 @@ class OrderStatusChangedNotification
     {
         $recipients = User::role('administrator')->whereNotNull('telegram_id')->get();
 
-        $text = "
-            Статус заказа #{$order->id} был изменен.
-            Новый статус: {$order->status->name}
-        ";
+        $text = "<b>❗️ Статус заказа</b> #{$order->id} был изменен.\n\n<b>📌 Новый статус</b>: {$order->status->name}";
 
-        $text .= $order->history ? "История: {$order->history->name}" : null;
+        $text .= $order->history ? "\n\n<b>💾 История:</b> {$order->history->name}" : null;
 
         foreach ($recipients as $recipient) {
-            Telegram::sendMessage($text, $recipient->telegram_id);
+            if ($recipient->telegram_id) {
+                Telegram::sendMessage($text, $recipient->telegram_id);
+                OrderCardMessage::send($order, $recipient->telegram_id);
+            }
         }
     }
 }

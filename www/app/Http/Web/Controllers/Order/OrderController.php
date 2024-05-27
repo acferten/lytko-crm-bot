@@ -13,7 +13,11 @@ class OrderController
 {
     public function index(): View
     {
-        $orders = Order::all();
+        if (auth()->user()->hasRole(['administrator'])) {
+            $orders = Order::orderBy('id')->paginate(12);
+        } else {
+            $orders = auth()->user()->assignments()->paginate(12);
+        }
 
         return view('pages.order.index', compact('orders'));
     }

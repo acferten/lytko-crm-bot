@@ -10,12 +10,12 @@ use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Exceptions\TelegramException;
 
-$bot->onCommand('orders', GetAssignedOrdersMenu::class)->description('Assigned orders');
+$bot->onCommand('orders', GetAssignedOrdersMenu::class)->description('Порученные заказы');
 
 $bot->onCommand('assign', AssignEmployeeToOrderMenu::class)
-    ->description('Assign employee to an order');
+    ->description('Поручить сотруднику заказ');
 
-$bot->onCommand('employees', GetEmployeesMenu::class)->description('Employees list');
+$bot->onCommand('employees', GetEmployeesMenu::class)->description('Список сотрудников');
 
 $bot->registerCommand(GetOrderInfoCommand::class)->whereNumber('id');
 
