@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    Заказ #{{ $order->wordpress_id }}
+    Заказ #{{ $order->wordpress_id }} | Lytko
 @endsection
 @section('content')
     <x-cards.table>

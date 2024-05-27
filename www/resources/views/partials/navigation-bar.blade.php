@@ -10,5 +10,15 @@
                                         iconName="orders"
                                         link="{{ route('orders.index') }}"></x-accordion.accordion-item>
         </x-accordion.accordion-list>
+
+        <x-accordion.accordion-list isActive="{{ request()->routeIs('users.*')}}" title="Сотрудники"
+                                    iconName="users">
+
+            <x-accordion.accordion-item isActive="{{ request()->routeIs('users.index') }}" title="Все сотрудники"
+                                        iconName="users"
+                                        link="{{ route('users.index') }}">
+            </x-accordion.accordion-item>
+
+        </x-accordion.accordion-list>
     </div>
 </nav>

@@ -1,10 +1,11 @@
 @extends('layouts.app')
 @section('title')
-    Все заказы
+    Все заказы | Lytko
 @endsection
 @section('content')
     <x-cards.table>
         <x-typography.card-title>Все заказы</x-typography.card-title>
+        <x-cards.success-alert/>
         <table id="estates-table" class="table table-bordered table-striped">
             <thead>
             <tr>

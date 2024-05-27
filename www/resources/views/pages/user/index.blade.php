@@ -1,33 +1,33 @@
 @extends('layouts.app')
 @section('title')
-    Users
+    Сотрудники | Lytko
 @endsection
 @section('content')
     <x-cards.table>
         <div class="d-flex gap-4 align-items-start">
-            <x-typography.card-title>All Users</x-typography.card-title>
-            <x-buttons.link size="small" href="/users/create">add new</x-buttons.link>
+            <x-typography.card-title>Список сотрудников</x-typography.card-title>
         </div>
-        <table id="estates-table" class="table table-bordered table-striped">
+        <x-cards.success-alert />
+        <table id="estates-table" class="table table-hover table-bordered table-striped table-responsive">
             <thead>
             <tr>
                 <th>ID</th>
-                <th>name</th>
-                <th>surname</th>
-                <th>phone</th>
-                <th>phone 2</th>
+                <th>ФИО</th>
                 <th>email</th>
+                <th>Telegram</th>
+                <th>Роль</th>
+                <th>Действия</th>
             </tr>
             </thead>
             <tbody>
             @foreach ($users as $user)
                 <tr>
                     <th>{{ $user->id }}</th>
-                    <th>{{ $user->name }}</th>
-                    <th>{{ $user->surname }}</th>
-                    <th>{{ $user->phone }}</th>
-                    <th>{{ $user->phone_2 }}</th>
+                    <th>{{ $user->getFullName() }}</th>
                     <th>{{ $user->email }}</th>
+                    <th>{{ $user->telegram_username }}</th>
+                    <th>{{ $user->getRoleNames()->first() }}</th>
+                    <th><a href="{{route('users.edit', $user)}}" class="btn btn-secondary">Изменить роль</a></th>
                 </tr>
             @endforeach
             </tbody>
