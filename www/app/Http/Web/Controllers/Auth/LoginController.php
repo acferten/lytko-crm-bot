@@ -2,6 +2,7 @@
 
 namespace App\Http\Web\Controllers\Auth;
 
+use Domain\Shared\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -17,10 +18,22 @@ class LoginController extends Controller
 
     public function login(Request $request): RedirectResponse
     {
-        $credentials = $request->validate([
-            'email' => ['required'],
+        $request->validate([
+            'credential' => ['required'],
             'password' => ['required'],
         ]);
+
+        if (User::where('login', $request->input('credential'))->exists()) {
+            $credentials = [
+                'login' => $request->input('credential'),
+                'password' => $request->input('password'),
+            ];
+        } else {
+            $credentials = [
+                'email' => $request->input('credential'),
+                'password' => $request->input('password'),
+            ];
+        }
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();

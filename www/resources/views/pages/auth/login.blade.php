@@ -1,16 +1,13 @@
 @extends('layouts.auth')
 @section('content')
     <x-cards.card>
-        <x-typography.card-title>Log In</x-typography.card-title>
+        <x-typography.card-title>Вход в систему</x-typography.card-title>
         <form action="/login" method="post">
             @csrf
-            <x-inputs.text id="login" name="email" label="E-mail" class="mb-3"/>
-            <x-inputs.password id="password" name="password" label="Password" class="mb-3"/>
-            <div class="d-flex justify-content-between">
-                <x-inputs.checkbox id="remember-me" name="remember-me" label="Remember me" class="mb-3"/>
-                <a class="link" href="{{ route('recover-password') }}">forgot your password?</a>
-            </div>
-            <x-buttons.button type="submit" text="LOG IN"/>
+            <x-inputs.text id="login" name="credential" label="Имя пользователя или email" class="mb-3"/>
+            <x-inputs.password id="password" name="password" label="Пароль" class="mb-3"/>
+            <a class="link" href="{{ route('recover-password') }}">Забыли пароль?</a>
+            <x-buttons.button type="submit" class="mt-4" text="Войти"/>
         </form>
     </x-cards.card>
 @endsection
