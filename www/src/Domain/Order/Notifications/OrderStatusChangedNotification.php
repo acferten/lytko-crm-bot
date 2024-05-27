@@ -17,6 +17,8 @@ class OrderStatusChangedNotification
             Новый статус: {$order->status->name}
         ";
 
+        $text .= $order->history ? "История: {$order->history->name}" : null;
+
         foreach ($recipients as $recipient) {
             Telegram::sendMessage($text, $recipient->telegram_id);
         }

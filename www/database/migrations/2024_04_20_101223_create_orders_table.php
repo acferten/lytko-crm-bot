@@ -18,8 +18,10 @@ return new class extends Migration
             $table->bigInteger('employee_id')->nullable();
             $table->bigInteger('address_id')->nullable();
             $table->bigInteger('wordpress_id')->nullable();
+            $table->bigInteger('history_id')->nullable();
 
             $table->foreign('status_id')->references('id')->on('order_statuses');
+            $table->foreign('history_id')->references('id')->on('order_histories');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('employee_id')->references('id')->on('users');
             $table->foreign('address_id')->references('id')->on('addresses');

@@ -9,6 +9,7 @@
         <table id="estates-table" class="table table-bordered table-striped">
             <thead>
             <tr>
+                <th>ID</th>
                 <th>WordPress ID</th>
                 <th>Товары</th>
                 <th>Заказчик</th>
@@ -19,7 +20,8 @@
             <tbody>
             @foreach ($orders as $order)
                 <tr>
-                    <th><a href="orders/{{$order->id}}">{{ $order->wordpress_id }}</a></th>
+                    <th><a href="orders/{{$order->id}}">{{ $order->id }}</a></th>
+                    <th><a href="{{$order->getWordpressUrl()}}">{{ $order->wordpress_id }}</a></th>
                     <th>{!! $order->products->implode('name', ', <br>') !!}</th>
                     <th>{{ $order->user?->getFullName()}}</th>
                     @if($order->employee)

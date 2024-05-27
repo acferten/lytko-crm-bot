@@ -11,29 +11,36 @@ class OrderCardMessage
 {
     public static function send(Order $order, int $user_id, bool $button_next = false): void
     {
+        $orderLink = route('orders.show', $order);
+
         $card = self::getCard($order);
 
         $markup = InlineKeyboardMarkup::make()
-            ->addRow(InlineKeyboardButton::make('👨‍💼 Написать владельцу', url: 'https://vk.com'))
-            ->addRow(InlineKeyboardButton::make('👨‍💼 Написать владельцу', url: 'https://vk.com'));
+            ->addRow(InlineKeyboardButton::make('👀 Посмотреть заказ в WordPress', url: $order->getWordPressUrl()))
+            ->addRow(InlineKeyboardButton::make('👀 Посмотреть заказ в CRM', url: $orderLink));
 
-        if ($button_next) {
-            $markup->addRow(InlineKeyboardButton::make('🔽 Следующий заказ', callback_data: 'next'));
-        }
-
-        Telegram::sendMessage($card, $user_id, parse_mode: 'html');
+        Telegram::sendMessage($card, $user_id, parse_mode: 'html', reply_markup: $markup);
     }
 
     public static function getCard(Order $order): string
     {
+
+
         $card = "
 <b>📦 ID: {$order->id}\n</b>
+<b>📦 WordPress ID: {$order->wordpress_id}\n</b>
 <b>📌 Статус: {$order->status->name}\n</b>
 <b>✉️ Адрес доставки:</b>
-{$order->address->name} {$order->address->surname}, {$order->address->company_name},
-{$order->address->country}, {$order->address->state},{$order->address->city},{$order->address->street}, {$order->address->house_number}, {$order->address->zip_code},
-{$order->address->phone}, {$order->address->email}, {$order->address->telegram_username},
-Примечание к заказу: {$order->address->note}\n\n<b>🔧 Заказанные товары:</b>\n";
+{$order->address->name} {$order->address->surname}
+{$order->address->company_name},
+{$order->address->country}, {$order->address->state}, {$order->address->city}, {$order->address->address}
+{$order->address->zip_code}
+{$order->address->phone}\n{$order->address->email}\n";
+
+        $card .= $order->address->telegram_username ? "Telegram: {$order->address->telegram_username}\n" : null;
+        $card .= $order->address->note ? "\n<b>❗️Примечание к заказу:</b> \n{$order->address->note}" : null;
+        $card .= $order->history ? "\n\n<b>💾 История:</b> {$order->history->name}\n" : null;
+        $card .= $order->products ? "\n<b>🔧 Заказанные товары:</b>\n" : null;
 
         foreach ($order->products as $product) {
             $card .= "• {$product->name}\n";

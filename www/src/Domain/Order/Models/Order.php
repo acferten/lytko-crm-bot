@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @property int $id
@@ -19,6 +20,7 @@ use Illuminate\Support\Collection;
  * @property int $wordpress_id
  * @property Address $address
  * @property OrderStatus $status
+ * @property OrderHistory $history
  * @property Collection<Product> $products
  */
 #[ObservedBy([OrderObserver::class])]
@@ -30,6 +32,7 @@ class Order extends BaseModel
         'employee_id',
         'address_id',
         'wordpress_id',
+        'history_id'
     ];
 
     public function getWordPressUrl()
@@ -50,6 +53,11 @@ class Order extends BaseModel
     public function status(): BelongsTo
     {
         return $this->belongsTo(OrderStatus::class);
+    }
+
+    public function history(): BelongsTo
+    {
+        return $this->belongsTo(OrderHistory::class);
     }
 
     public function products(): BelongsToMany

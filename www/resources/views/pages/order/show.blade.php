@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    Заказ #{{ $order->wordpress_id }} | Lytko
+    Заказ #{{ $order->id }} | Lytko
 @endsection
 @section('content')
     <x-cards.table>
@@ -10,14 +10,15 @@
                 <p style="white-space: pre-line;"> {!! \Domain\Order\Telegram\Messages\OrderCardMessage::getCard($order) !!}</p>
                 <div class="row">
                     <a class="btn btn-secondary" href="{{route('orders.edit', $order)}}">Обновить статус</a>
+                    <a class="btn btn-secondary my-4" href="{{route('orders.edit-history', $order)}}">Обновить историю</a>
                 </div>
-
             </div>
 
+            @if($order->products()->first()->photos()->exists())
             <div class="product-image"
-                 style="background-image: url('{{ $order->products()->first()->photos()->first()->file }}');">
+                 style="background-image: url('{{ $order->products()->first()->photos()->first()?->getProductImage() }}');">
             </div>
-
+            @endif
         </div>
         <div>
             <x-typography.sub-title>Заказанные товары:</x-typography.sub-title>
