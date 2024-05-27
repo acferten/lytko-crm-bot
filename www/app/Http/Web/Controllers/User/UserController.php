@@ -15,7 +15,7 @@ class UserController
     public function index(): View
     {
         $data = [
-            'users' => User::all()
+            'users' => User::withoutRole('customer')->get()
         ];
 
         return view('pages.user.index', $data);
