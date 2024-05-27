@@ -23,7 +23,10 @@
                         @method('PATCH')
                         <x-inputs.text id="telegram_id" name="telegram_id" label="Telegram ID"
                                        class="mb-3 multi-select-wrapper" value="{{$user->telegram_id}}"/>
-                        <x-inputs.text id="telegram_username" name="telegram_username" label="Telegram username"
+                        <p class="text-secondary">Свой telegram id можно узнать, обратившись к боту
+                            <a href="https://t.me/get_myidbot">https://t.me/get_myidbot</a>
+                        </p>
+                        <x-inputs.text id="telegram_username" name="telegram_username" label="Telegram username (без @)"
                                        class="mb-3 multi-select-wrapper" value="{{$user->telegram_username}}"/>
                         <button class="btn btn-secondary">Обновить</button>
                     </form>

@@ -6,7 +6,6 @@ use Domain\Shared\Models\User;
 use Domain\User\Actions\UpdateUserRoleAction;
 use Domain\User\DataTransferObjects\UserRoleData;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
 

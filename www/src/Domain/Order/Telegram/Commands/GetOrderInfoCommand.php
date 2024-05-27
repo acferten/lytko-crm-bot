@@ -18,13 +18,19 @@ class GetOrderInfoCommand extends Command
     {
         $employee = User::where('telegram_id', $bot->userId())->first();
 
-        if (is_null($employee) || $employee->hasRole('customer')) {
-            $this->menuText('🚫 У Вас нет доступа к этой команде.')->showMenu();
+        $order = Order::find($id);
+
+        if (is_null($employee) || $employee->hasRole('customer') || !$employee->hasRole('administrator') || $employee->assignments->doesntContain($order)) {
+            $bot->sendMessage('🚫 У Вас нет доступа к этой команде.');
 
             return;
         }
 
-        $order = Order::findOrFail($id);
+        if (!$order) {
+            $bot->sendMessage('🚫 Неверный ID заказа.');
+
+            return;
+        }
 
         OrderCardMessage::send($order, $bot->userId());
     }

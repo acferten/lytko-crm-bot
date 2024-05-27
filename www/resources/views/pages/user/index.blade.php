@@ -25,7 +25,13 @@
                     <th>{{ $user->id }}</th>
                     <th>{{ $user->getFullName() }}</th>
                     <th>{{ $user->email }}</th>
-                    <th>{{ $user->telegram_username }}</th>
+                    <th> @if($user->telegram_username)
+                            {{ $user->telegram_username }}
+                        @else
+                            <span class="badge text-bg-warning mx-auto">Укажите telegram</span>
+                    @endif
+
+                        </th>
                     <th>{{ $user->getRoleNames()->first() }}</th>
                     <th><a href="{{route('users.edit', $user)}}" class="btn btn-secondary">Изменить</a></th>
                 </tr>

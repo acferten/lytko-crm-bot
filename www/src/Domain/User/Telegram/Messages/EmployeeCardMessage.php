@@ -16,12 +16,17 @@ class EmployeeCardMessage
 
     public static function getCard(User $user): string
     {
-        return "
-<b>🧑‍💻 {$user->name} {$user->surname} {$user->patronymic}</b>
-<b>💭 {$user->telegram_username}</b>\n
+        $text = "
+<b>🧑‍💻 {$user->name} {$user->surname} {$user->patronymic}</b>";
+
+        $text .= $user->telegram_username ? "\n<b>💭 {$user->telegram_username} </b>\n" : "\n<b>💭 Telegram не указан </b>\n";
+
+        $text .= "
 <b>✏️ ID: {$user->id}</b>
 <b>📌 Роль: {$user->getRoleNames()->first()}</b>
 <b>✉️ {$user->email}</b>
 ";
+
+        return $text;
     }
 }

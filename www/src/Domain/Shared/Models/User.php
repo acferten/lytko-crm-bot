@@ -55,9 +55,15 @@ class User extends Authenticatable implements \Illuminate\Contracts\Auth\CanRese
         return app(UserFactory::class);
     }
 
+
     public function getFullName(): string
     {
         return "{$this->surname} {$this->name} {$this->patronymic}";
+    }
+
+    public function getTelegramUrl(): string
+    {
+        return 'https://t.me/' . $this->telegram_username;
     }
 
     public function orders(): hasMany
