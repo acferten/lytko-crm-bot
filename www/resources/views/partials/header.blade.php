@@ -8,21 +8,25 @@
                 KS
             </div>
             @auth
-            <div class="account__data">
-                <div class="account__name fw-bold">{{auth()->user()->name}} {{auth()->user()->surname}}</div>
-                <div class="account__post opacity-50 mt-1">{{auth()->user()->getRoleNames()->first()}}</div>
-            </div>
+                <div class="account__data">
+                    <div class="account__name fw-bold">{{auth()->user()->name}} {{auth()->user()->surname}}</div>
+                    <div class="account__post opacity-50 mt-1">{{auth()->user()->getRoleNames()->first()}}</div>
+                </div>
             @endauth
         </div>
         <div class="dropdown d-flex justify-content-center align-items-center">
             <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 @include('components.icons.app-icon', ['name' => 'arrow-down', 'type' => 'responsive'])
             </button>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
+
+            <form action="{{route('logout')}}" method="POST"> @csrf
+                <ul class="dropdown-menu">
+
+                    <li>
+                        <button class="dropdown-item">Выход</button>
+                    </li>
+                </ul>
+            </form>
         </div>
     </div>
 </div>

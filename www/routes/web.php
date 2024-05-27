@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Web\Controllers\Auth\LoginController;
+use App\Http\Web\Controllers\Auth\LogoutController;
 use App\Http\Web\Controllers\Order\OrderController;
 use App\Http\Web\Controllers\Order\OrderHistoryController;
 use App\Http\Web\Controllers\User\UpdateUserController;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('login', [LoginController::class, 'getForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
+Route::post('logout', LogoutController::class)->name('logout');
 Route::post('recover-password', function () {
 })->name('recover-password');
 

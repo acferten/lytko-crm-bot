@@ -38,6 +38,5 @@ class OrderController
     {
         return redirect()->route('orders.show', UpdateOrderStatusAction::execute($data))
             ->with('success', 'Заказ успешно обновлен.');
-
     }
 }
