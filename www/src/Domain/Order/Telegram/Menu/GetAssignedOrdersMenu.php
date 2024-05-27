@@ -29,10 +29,7 @@ class GetAssignedOrdersMenu extends InlineMenu
         }
 
         if ($employee->hasRole('administrator')) {
-            $this->orders = Order::whereNot('status_id',
-                OrderStatus::where('slug', 'completed')->first()->id)
-                ->orderBy('id', 'desc')
-                ->get();
+            $this->orders = Order::orderBy('id', 'desc')->get();
         } else {
             $this->orders = $employee->assignments()->orderBy('id', 'desc')->get();
         }

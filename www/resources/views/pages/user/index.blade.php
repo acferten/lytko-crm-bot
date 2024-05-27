@@ -27,7 +27,7 @@
                     <th>{{ $user->email }}</th>
                     <th>{{ $user->telegram_username }}</th>
                     <th>{{ $user->getRoleNames()->first() }}</th>
-                    <th><a href="{{route('users.edit', $user)}}" class="btn btn-secondary">Изменить роль</a></th>
+                    <th><a href="{{route('users.edit', $user)}}" class="btn btn-secondary">Изменить</a></th>
                 </tr>
             @endforeach
             </tbody>
