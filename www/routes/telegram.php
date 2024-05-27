@@ -10,10 +10,6 @@ use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Exceptions\TelegramException;
 
-$bot->onCommand('start', function (Nutgram $bot) {
-    $bot->sendMessage('Hello, world!');
-})->description('The start command!');
-
 $bot->onCommand('orders', GetAssignedOrdersMenu::class)->description('Assigned orders');
 
 $bot->onCommand('assign', AssignEmployeeToOrderMenu::class)
