@@ -14,7 +14,7 @@ class EmployeeAssignedToOrderNotification
         $text = "Вы были назначены на заказ #{$order->id}.\n\n";
 
         if ($user->telegram_id) {
-            Telegram::sendMessage($text, $user->telegram_id);
+            Telegram::sendMessage($text, $user->telegram_id, parse_mode: 'html');
             OrderCardMessage::send($order, $user->telegram_id);
         }
     }

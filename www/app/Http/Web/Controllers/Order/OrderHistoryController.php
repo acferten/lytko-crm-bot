@@ -3,7 +3,6 @@
 namespace App\Http\Web\Controllers\Order;
 
 use Domain\Order\Actions\UpdateOrderHistoryAction;
-use Domain\Order\Actions\UpdateOrderStatusAction;
 use Domain\Order\DataTransferObjects\OrderHistoryData;
 use Domain\Order\Models\Order;
 use Domain\Order\Models\OrderHistory;

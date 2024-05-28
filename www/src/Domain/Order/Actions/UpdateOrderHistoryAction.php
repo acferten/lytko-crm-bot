@@ -14,7 +14,7 @@ class UpdateOrderHistoryAction
 
         $data->order->save();
 
-        OrderStatusChangedNotification::send($data->order);
+        OrderStatusChangedNotification::send($data->order, auth()->user());
 
         return $data->order->refresh();
     }

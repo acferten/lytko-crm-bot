@@ -2,9 +2,9 @@
 
 /** @var SergiX44\Nutgram\Nutgram $bot */
 
-use Domain\Order\Telegram\Commands\GetOrderInfoCommand;
 use Domain\Order\Telegram\Menu\AssignEmployeeToOrderMenu;
 use Domain\Order\Telegram\Menu\GetAssignedOrdersMenu;
+use Domain\Order\Telegram\Menu\ManageOrderInfoMenu;
 use Domain\User\Telegram\Menu\GetEmployeesMenu;
 use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\Nutgram;
@@ -12,12 +12,11 @@ use SergiX44\Nutgram\Telegram\Exceptions\TelegramException;
 
 $bot->onCommand('orders', GetAssignedOrdersMenu::class)->description('Порученные заказы');
 
-$bot->onCommand('assign', AssignEmployeeToOrderMenu::class)
-    ->description('Поручить сотруднику заказ');
+$bot->onCommand('assign', AssignEmployeeToOrderMenu::class)->description('Поручить сотруднику заказ');
 
 $bot->onCommand('employees', GetEmployeesMenu::class)->description('Список сотрудников');
 
-$bot->registerCommand(GetOrderInfoCommand::class)->whereNumber('id');
+$bot->onCommand('order {order_id}', ManageOrderInfoMenu::class)->description('Информация о заказе (order id)');
 
 // Exceptions
 if (env('APP_DEBUG')) {

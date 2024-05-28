@@ -15,6 +15,7 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
+ * @property int $id
  * @property string $name
  * @property string $surname
  * @property string $patronymic
@@ -22,7 +23,6 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string $password
  * @property string $email
  * @property string $about
- * @property string $profile_picture
  * @property int $telegram_id
  * @property string $telegram_username
  */

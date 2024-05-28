@@ -8,6 +8,8 @@
             <div>
                 <x-typography.card-title>Обновление сотрудника #{{ $user->id }}</x-typography.card-title>
                 <p style="white-space: pre-line;"> {!! \Domain\User\Telegram\Messages\EmployeeCardMessage::getCard($user) !!}</p>
+
+                @if(auth()->user()->id != $user->id)
                 <div class="row mb-3">
                     <form action="{{route('users.update-data', $user)}}" method="POST">
                         @csrf
@@ -17,6 +19,9 @@
                         <button class="btn btn-secondary">Изменить роль</button>
                     </form>
                 </div>
+                @endif
+
+
                 <div class="row">
                     <form action="{{route('users.update-data', $user)}}" method="POST">
                         @csrf

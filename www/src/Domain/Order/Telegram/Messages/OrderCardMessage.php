@@ -11,7 +11,7 @@ class OrderCardMessage
 {
     public static function send(Order $order, int $user_id, bool $button_next = false): void
     {
-        $orderLink = route('orders.show', $order);
+        $orderLink = "https://present-koi-vocal.ngrok-free.app/orders/{$order->id}"; //TODO: change
 
         $card = self::getCard($order);
 
@@ -24,8 +24,6 @@ class OrderCardMessage
 
     public static function getCard(Order $order): string
     {
-
-
         $card = "
 <b>📦 ID: {$order->id}\n</b>
 <b>📦 WordPress ID: {$order->wordpress_id}\n</b>

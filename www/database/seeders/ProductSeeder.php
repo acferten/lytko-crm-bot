@@ -19,7 +19,5 @@ class ProductSeeder extends Seeder
                 ['name' => 'Доступно для предзаказа'],
             ))
             ->create();
-
-        Product::factory()->has(Parameter::factory()->has(Option::factory()))->count(5)->create();
     }
 }

@@ -20,7 +20,7 @@
                 </thead>
                 <tbody>
 
-                @foreach ($orders as $order)
+                @forelse ($orders as $order)
                     <tr>
                         <th><a href="orders/{{$order->id}}">{{ $order->id }}</a></th>
                         <th><a href="{{$order->getWordpressUrl()}}">{{ $order->wordpress_id }}</a></th>
@@ -34,7 +34,9 @@
 
                         <th><span class="badge text-bg-warning mx-auto">{{ $order->status->name }}</span></th>
                     </tr>
-                @endforeach
+                @empty
+                    <tr><th>Заказов не назначено</th></tr>
+                @endforelse
                 </tbody>
             </table>
         </div>

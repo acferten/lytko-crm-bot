@@ -2,7 +2,12 @@
 
 namespace App\Providers;
 
+use Domain\Order\Models\Order;
+use Domain\Order\Policies\OrderPolicy;
+use Domain\Shared\Models\User;
+use Domain\User\Policies\UserPolicy;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,5 +26,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrapFive();
+        Gate::policy(Order::class, OrderPolicy::class);
+        Gate::policy(User::class, UserPolicy::class);
     }
 }

@@ -3,8 +3,10 @@
 namespace Domain\Order\Telegram\Menu;
 
 use Domain\Order\Models\Order;
-use Domain\Order\Models\OrderStatus;
+use Domain\Order\Models\OrderHistory;
 use Domain\Order\Notifications\OrderStatusChangedNotification;
+use Domain\Order\Telegram\Menu\Concerns\UpdateOrderHistoryTrait;
+use Domain\Order\Telegram\Menu\Concerns\UpdateOrderStatusTrait;
 use Domain\Order\Telegram\Messages\OrderCardMessage;
 use Domain\Shared\Models\User;
 use Illuminate\Support\Collection;
@@ -14,6 +16,9 @@ use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 
 class GetAssignedOrdersMenu extends InlineMenu
 {
+    use UpdateOrderStatusTrait;
+    use UpdateOrderHistoryTrait;
+
     public Collection $orders;
 
     public int $page;
@@ -61,6 +66,9 @@ class GetAssignedOrdersMenu extends InlineMenu
         $this->addButtonRow(InlineKeyboardButton::make('✍️ Изменить статус',
             callback_data: "{$order->id}@showChangeStatusMenu"));
 
+        $this->addButtonRow(InlineKeyboardButton::make('💾 Добавить историю',
+            callback_data: "{$order->id}@showChangeHistoryMenu"));
+
         // Pagination buttons
         if ($this->orders->get($this->page - 1)) {
             $this->addButtonRow(InlineKeyboardButton::make('◀️ Назад', callback_data: 'back@handlePagination'));
@@ -81,15 +89,15 @@ class GetAssignedOrdersMenu extends InlineMenu
         $this->getOrderLayout($bot);
     }
 
-    public function showChangeStatusMenu(Nutgram $bot): void
+    public function showChangeHistoryMenu(Nutgram $bot): void
     {
-        $this->clearButtons()->menuText('Вы хотите изменить статус заказа на',
+        $this->clearButtons()->menuText('Вы хотите изменить историю заказа на',
             ['parse_mode' => 'html']);
 
-        foreach (OrderStatus::all() as $status) {
-            if (Order::find($bot->callbackQuery()->data)->status->id != $status->id) {
-                $this->addButtonRow(InlineKeyboardButton::make($status->name,
-                    callback_data: "{$status->name},{$bot->callbackQuery()->data}@changeStatus"));
+        foreach (OrderHistory::all() as $history) {
+            if (Order::find($bot->callbackQuery()->data)->history?->id != $history->id) {
+                $this->addButtonRow(InlineKeyboardButton::make($history->name,
+                    callback_data: "{$history->id},{$bot->callbackQuery()->data}@changeHistory"));
             }
         }
 
@@ -98,27 +106,24 @@ class GetAssignedOrdersMenu extends InlineMenu
             ->showMenu();
     }
 
+    public function changeHistory(Nutgram $bot): void
+    {
+        $update_info = explode(',', $bot->callbackQuery()->data);
+
+        $history = OrderHistory::find($update_info[0]);
+        $order = Order::find($update_info[1]);
+
+        $order->history()->associate($history);
+        $order->save();
+
+        OrderStatusChangedNotification::send($order, User::where('telegram_id', $bot->userId())->first());
+
+        $this->start($bot);
+    }
+
     public function returnBack(Nutgram $bot): void
     {
         $this->getOrderLayout($bot);
-    }
-
-    public function changeStatus(Nutgram $bot): void
-    {
-        $update_info = explode(',', $bot->callbackQuery()->data);
-        $status_name = $update_info[0];
-        $order_id = $update_info[1];
-
-        $status = OrderStatus::where('name', $status_name)->first();
-
-        $order = Order::find($order_id);
-        $order->update(
-            ['status_id' => $status->id]
-        );
-
-        OrderStatusChangedNotification::send($order);
-
-        $this->start($bot);
     }
 
     public function none(Nutgram $bot): void
