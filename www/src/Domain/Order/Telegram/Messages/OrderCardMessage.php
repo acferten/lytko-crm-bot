@@ -30,7 +30,7 @@ class OrderCardMessage
 <b>📌 Статус: {$order->status->name}\n</b>
 <b>✉️ Адрес доставки:</b>
 {$order->address->name} {$order->address->surname}
-{$order->address->company_name},
+{$order->address->company_name}
 {$order->address->country}, {$order->address->state}, {$order->address->city}, {$order->address->address}
 {$order->address->zip_code}
 {$order->address->phone}\n{$order->address->email}\n";
