@@ -30,7 +30,7 @@ class UserData extends Data
             login: $user['username'],
             surname: empty($user['last_name']) ? null : $user['last_name'],
             role: $user['roles'][0],
-            password: Str::password(10),
+            password: env('RANDOM_PASSWORD'),
         );
     }
 }
