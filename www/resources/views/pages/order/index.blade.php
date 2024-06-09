@@ -7,15 +7,48 @@
         <x-typography.card-title>Все заказы</x-typography.card-title>
         <x-cards.success-alert/>
         <div class="table-responsive">
+            <div class="col-4">
+                <form method="get" action="{{route('orders.index')}}" class="mb-4">
+                    <div class="d-flex">
+                        <input type="text" name="search" class="form-control" id="search" placeholder="Поиск"
+                               value="{{request('search')}}">
+                        <input type="submit" class="btn btn-secondary" id="search"
+                               value="Найти" placeholder="Поиск">
+                    </div>
+                </form>
+            </div>
             <table id="estates-table" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>WordPress ID</th>
+                    <th>
+                        <span>ID</span>
+                        <div style="width:45px">
+                            <x-buttons.sorting-button :route_name="'orders.index'"
+                                                      :parameter_name="'id'"></x-buttons.sorting-button>
+                            <x-buttons.sorting-button :route_name="'orders.index'" :parameter_name="'id'"
+                                                      :desc="false"></x-buttons.sorting-button>
+                        </div>
+                    </th>
+                    <th>
+                        <span>WordPress ID</span>
+                        <div>
+                            <x-buttons.sorting-button :route_name="'orders.index'"
+                                                      :parameter_name="'wordpress_id'"></x-buttons.sorting-button>
+                            <x-buttons.sorting-button :route_name="'orders.index'" :parameter_name="'wordpress_id'"
+                                                      :desc="false"></x-buttons.sorting-button>
+                        </div>
+                    </th>
                     <th>Товары</th>
                     <th>Заказчик</th>
                     <th>Ответственный сотрудник</th>
-                    <th>Статус</th>
+                    <th><span>Статус</span>
+                        <div>
+                            <x-buttons.sorting-button :route_name="'orders.index'"
+                                                      :parameter_name="'status_id'"></x-buttons.sorting-button>
+                            <x-buttons.sorting-button :route_name="'orders.index'" :parameter_name="'status_id'"
+                                                      :desc="false"></x-buttons.sorting-button>
+                        </div>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -31,17 +64,18 @@
                         @else
                             <th><span class="badge text-bg-danger mx-auto">Сотрудник не назначен</span></th>
                         @endif
-
                         <th><span class="badge text-bg-warning mx-auto">{{ $order->status->name }}</span></th>
                     </tr>
                 @empty
-                    <tr><th>Заказов не назначено</th></tr>
+                    <tr>
+                        <th>Заказов не назначено</th>
+                    </tr>
                 @endforelse
                 </tbody>
             </table>
         </div>
         @if(!$orders->isEmpty())
-            {{ $orders->links() }}
+            {{ $orders->appends(request()->input())->links() }}
         @endif
     </x-cards.table>
 @endsection

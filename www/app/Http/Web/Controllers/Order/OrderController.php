@@ -7,19 +7,20 @@ use Domain\Order\DataTransferObjects\OrderStatusData;
 use Domain\Order\Models\Order;
 use Domain\Order\Models\OrderStatus;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class OrderController
 {
-    public function index(): View
+    public function index(Request $request): View
     {
         Gate::authorize('viewAny', Order::class);
 
         if (auth()->user()->hasRole(['administrator'])) {
-            $orders = Order::orderBy('id')->paginate(12);
+            $orders = Order::filter()->paginate(12);
         } else {
-            $orders = auth()->user()->assignments()->paginate(12);
+            $orders = auth()->user()->assignments()->filter()->paginate(12);
         }
 
         return view('pages.order.index', compact('orders'));

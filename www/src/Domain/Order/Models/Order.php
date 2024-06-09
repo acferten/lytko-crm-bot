@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
+use Mehradsadeghi\FilterQueryString\FilterQueryString;
 
 /**
  * @property int $id
@@ -26,6 +27,10 @@ use Illuminate\Support\Facades\Storage;
 #[ObservedBy([OrderObserver::class])]
 class Order extends BaseModel
 {
+    use FilterQueryString;
+
+    protected $filters = ['sort', 'search'];
+
     protected $fillable = [
         'user_id',
         'status_id',
@@ -70,5 +75,21 @@ class Order extends BaseModel
     public function address(): BelongsTo
     {
         return $this->belongsTo(Address::class);
+    }
+
+    public function search($query, $value)
+    {
+        if (is_int($value)) {
+            return $query->orWhere('wordpress_id', $value)
+                ->orWhere('id', $value);
+        }
+
+        return $query->orWhereHas('status', function ($q) use ($value) {
+            $q->where('name', 'like', "%{$value}%");
+        })->orWhereHas('employee', function ($q) use ($value) {
+            $q->where('name', 'like', "%{$value}%")->orWhere('surname', 'like', "%{$value}%");
+        })->orWhereHas('user', function ($q) use ($value) {
+            $q->where('name', 'like', "%{$value}%")->orWhere('surname', 'like', "%{$value}%");
+        });
     }
 }
