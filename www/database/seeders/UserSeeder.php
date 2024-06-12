@@ -14,7 +14,8 @@ class UserSeeder extends Seeder
             ->afterCreating(function (User $user) {
                 $user->assignRole('administrator');
             })->state(new Sequence(
-                ['telegram_username' => 'grepnam3',
+                [
+                    'telegram_username' => 'grepnam3',
                     'telegram_id' => 472041603,
                     'login' => 'grepnam3',
                 ]))->create();

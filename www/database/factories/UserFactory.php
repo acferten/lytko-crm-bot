@@ -16,9 +16,9 @@ class UserFactory extends Factory
             'login' => $this->faker->unique()->userName(),
             'email' => $this->faker->unique()->safeEmail(),
             'password' => Hash::make('password'),
-            'name' => $this->faker->firstName(),
-            'surname' => $this->faker->lastName(),
-            'patronymic' => $this->faker->lastName(),
+            'name' => $this->faker->firstName('female'),
+            'surname' => $this->faker->lastName('female'),
+            'patronymic' => $this->faker->lastName('female'),
             'telegram_id' => $this->faker->numberBetween(1000, 99999),
             'telegram_username' => $this->faker->userName(),
         ];
