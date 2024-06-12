@@ -10,12 +10,12 @@ Artisan::command('inspire', function () {
 
 Schedule::call(function (\Domain\Shared\Services\Lytko\Client $client) {
     $client->users();
-})->everyMinute();
+})->everyFifteenMinutes();
 
 Schedule::call(function (\Domain\Shared\Services\Lytko\Client $client) {
     $client->products();
-})->everyMinute();
+})->everyFifteenMinutes();
 
 Schedule::call(function (\Domain\Shared\Services\Lytko\Client $client) {
     $client->orders();
-})->everyMinute();
+})->everyFifteenMinutes();
