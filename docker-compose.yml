@@ -1,7 +1,9 @@
 services:
   web:
     build:
-      context: images/php
+      context: ./
+      dockerfile: images/php/Dockerfile
+    entrypoint: [ "/usr/bin/supervisord"]
     container_name: php
     restart: unless-stopped
     volumes:

@@ -11,7 +11,7 @@ class OrderStatusSeeder extends Seeder
     public function run(): void
     {
         OrderStatus::factory()
-            ->count(15)
+            ->count(16)
             ->state(new Sequence(
             // Default WooCommerce statuses
                 ['name' => 'Новый', 'slug' => 'new', 'wordpress_slug' => 'pending'],
@@ -21,6 +21,7 @@ class OrderStatusSeeder extends Seeder
                 ['name' => 'На удержании', 'slug' => 'onHold', 'wordpress_slug' => 'on-hold'],
                 ['name' => 'Возврат', 'slug' => 'refunded', 'wordpress_slug' => 'refunded'],
                 ['name' => 'В пути', 'slug' => 'delivering', 'wordpress_slug' => 'delivering'],
+                ['name' => 'Ошибка', 'slug' => 'failed', 'wordpress_slug' => 'failed'],
 
                 // Custom
                 ['name' => 'Подтвержден', 'slug' => 'approved', 'wordpress_slug' => 'seaxbumb3e'],
