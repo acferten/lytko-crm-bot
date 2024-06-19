@@ -29,10 +29,9 @@ class CreateUserAction
                     'login' => $data->login,
                     'password' => Hash::make($data->password),
                 ]);
-            try {
-                $user->notify(new PasswordGenerated($data->password));
-            } catch (\Exception $exception) {
 
+            if ($data->role != 'customer') {
+                $user->notify(new PasswordGenerated($data->password));
             }
         }
 
