@@ -43,7 +43,7 @@ class OrderData extends Data
             wordpress_id: $order['number'],
             status: OrderStatus::firstOrCreate(
                 ['wordpress_slug' => $order['status']],
-                ['slug' => $order['status'], 'status' => $order['status']]),
+                ['slug' => $order['status'], 'name' => $order['status']]),
             user: User::where(['email' => $order['billing']['email']])->first(),
             products: OrderProductData::collect($order['line_items'], Collection::class),
             address: AddressData::from($order['billing'],
