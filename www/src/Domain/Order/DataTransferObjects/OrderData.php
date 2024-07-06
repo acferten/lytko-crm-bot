@@ -40,7 +40,7 @@ class OrderData extends Data
         $telegram_meta_key = array_search('telegram', array_column($order['meta_data'], 'key'));
 
         return new self(
-            wordpress_id: $order['id'],
+            wordpress_id: $order['number'],
             status: OrderStatus::firstOrCreate(
                 ['wordpress_slug' => $order['status']],
                 ['slug' => $order['status'], 'status' => $order['status']]),
