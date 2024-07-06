@@ -16,6 +16,10 @@ $bot->onCommand('assign', AssignEmployeeToOrderMenu::class)->description('Пор
 
 $bot->onCommand('employees', GetEmployeesMenu::class)->description('Список сотрудников');
 
+$bot->onCommand('order', function (Nutgram $bot) {
+    $bot->sendMessage('🤓 Введите номер заказа через пробел. Пример: /order 1');
+});
+
 $bot->onCommand('order {order_id}', ManageOrderInfoMenu::class)->description('Информация о заказе (order id)');
 
 // Exceptions

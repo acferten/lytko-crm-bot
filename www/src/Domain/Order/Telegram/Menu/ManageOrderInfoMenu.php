@@ -28,12 +28,6 @@ class ManageOrderInfoMenu extends InlineMenu
             return;
         }
 
-        if (!$order_id) {
-            $bot->sendMessage('🤓 Введите номер заказа через пробел. Пример: /order 1');
-
-            return;
-        }
-
         $this->order = Order::where('wordpress_id', $order_id)->first();
 
         if (!$this->order) {
