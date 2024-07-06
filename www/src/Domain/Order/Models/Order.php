@@ -18,6 +18,7 @@ use Mehradsadeghi\FilterQueryString\FilterQueryString;
  * @property int $user_id
  * @property int $employee_id
  * @property int $wordpress_id
+ * @property int $wordpress_post_id
  * @property Address $address
  * @property OrderStatus $status
  * @property OrderHistory $history
@@ -42,7 +43,7 @@ class Order extends BaseModel
 
     public function getWordPressUrl()
     {
-        return "https://lytko.com/wp-admin/post.php?post={$this->wordpress_id}&action=edit";
+        return "https://lytko.com/wp-admin/post.php?post={$this->wordpress_post_id}&action=edit";
     }
 
     public function user(): BelongsTo
