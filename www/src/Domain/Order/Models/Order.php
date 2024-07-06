@@ -36,6 +36,7 @@ class Order extends BaseModel
         'employee_id',
         'address_id',
         'wordpress_id',
+        'wordpress_post_id',
         'history_id'
     ];
 

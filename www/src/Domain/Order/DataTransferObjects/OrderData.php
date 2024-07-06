@@ -12,6 +12,7 @@ class OrderData extends Data
 {
     public function __construct(
         public readonly ?int         $wordpress_id,
+        public readonly ?int         $wordpress_post_id,
         public readonly OrderStatus  $status,
         public readonly ?User        $user,
         /** @var Collection<OrderProductData> */
@@ -41,6 +42,7 @@ class OrderData extends Data
 
         return new self(
             wordpress_id: $order['number'],
+            wordpress_post_id: $order['id'],
             status: OrderStatus::firstOrCreate(
                 ['wordpress_slug' => $order['status']],
                 ['slug' => $order['status'], 'name' => $order['status']]),

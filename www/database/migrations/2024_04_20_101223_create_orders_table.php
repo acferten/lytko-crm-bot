@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigInteger('status_id');
             $table->bigInteger('employee_id')->nullable();
             $table->bigInteger('address_id')->nullable();
+            $table->bigInteger('wordpress_post_id')->nullable();
             $table->bigInteger('wordpress_id')->nullable();
             $table->bigInteger('history_id')->nullable();
 
