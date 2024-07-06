@@ -24,6 +24,7 @@ class UpsertOrderAction
                     'status_id' => $data->status->id,
                     'user_id' => $data->user?->id,
                     'wordpress_id' => $data->wordpress_id,
+                    'wordpress_post_id' => $data->wordpress_post_id,
                 ]);
 
             foreach ($data->products as $product) {
